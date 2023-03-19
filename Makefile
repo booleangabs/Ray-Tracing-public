@@ -1,30 +1,33 @@
-INCLUDES = include/
-
 CXX = g++
-CXXFLAGS = std=c++20 -Iinclude
+CXXFLAGS = -Iinclude
 
 ifndef WINDOWS
 	WINDOWS=true
 endif
 
 ifeq ($(WINDOWS), true)
-	create_bin = if not exist bin mkdir bin
-	clear_bin = forfiles /P bin /M * /C "cmd /c if @isdir==FALSE del @file"
+	CREATE_BIN = if not exist bin mkdir bin
+	CLEAR_BIN = forfiles /P bin /M * /C "cmd /c if @isdir==FALSE del @file"
+	EXT = exe
 else
-	create_bin = mkdir -p bin
-	clear_bin = rm -rf bin
+	CREATE_BIN = mkdir -p bin
+	CLEAR_BIN = rm -rf bin
+	EXT = o
 endif
 
 all: run_raytracing
 
-bin/%: src/%.cpp
-	@$(create_bin)
-	@$(CXX) $^ -o $@
+bin/%.$(EXT): src/%.cpp
+	@$(CREATE_BIN)
+	@$(CXX) -c $^ -o $@ $(CXXFLAGS)
 
-run_raytracing: bin/main
-	@$(create_bin)
-	@$^
+run_raytracing: bin/main.$(EXT)
+	@"$(^)"
+
+test_point3: test/test_point3.cpp bin/Point3.$(EXT)
+	@$(CXX) $^ $(CXXFLAGS) -o $@ 
+	@"$(@)"
 
 clean:
-	@$(clear_bin)
+	@$(CLEAR_BIN)
 
