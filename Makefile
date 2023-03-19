@@ -21,12 +21,23 @@ bin/%.$(EXT): src/%.cpp
 	@$(CREATE_BIN)
 	@$(CXX) -c $^ -o $@ $(CXXFLAGS)
 
-run_raytracing: bin/main.$(EXT)
+##### Main #####
+
+bin/main: src/main.cpp
+	@$(CREATE_BIN)
+	@$(CXX) $^ -o $@ $(CXXFLAGS)
+
+run_raytracing: bin/main
 	@"$(^)"
+
+##### Tests #####
 
 test_point3: test/test_point3.cpp bin/Point3.$(EXT)
 	@$(CXX) $^ $(CXXFLAGS) -o $@ 
 	@"$(@)"
+
+
+##### Cleanup #####
 
 clean:
 	@$(CLEAR_BIN)
