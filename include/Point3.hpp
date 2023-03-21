@@ -7,6 +7,9 @@ class Point3 {
     public:
         Point3();
         Point3(double _x, double _y, double _z);
+        double getX() const;
+        double getY() const;
+        double getZ() const;
         Point3 operator/(double scalar) const;
         Point3 operator*(double scalar) const;
 };
