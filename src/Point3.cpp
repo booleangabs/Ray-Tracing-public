@@ -7,6 +7,9 @@ private:
 public:
     Point3() : x(0.0), y(0.0), z(0.0) {}
     Point3(double _x, double _y, double _z) : x(_x), y(_y), z(_z) {}
+    double getX() const { return x; }
+    double getY() const { return y; }
+    double getZ() const { return z; }
 
     Point3 operator/(double scalar) const {
         return Point3(x/scalar, y/scalar, z/scalar);
