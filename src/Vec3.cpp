@@ -103,10 +103,3 @@ Vec3 Vec3::cross(const Vec3& vec) const {
     double c = (x * vec.getY() - vec.getX() * y);
     return Vec3(a, b, c);
 };
-// Cross product
-Vec3 Vec3::cross(const Vec3& vec) const {
-    double a = (y * vec.getZ() - vec.getY() * z);
-    double b = (z * vec.getX() - vec.getZ() * x);
-    double c = (x * vec.getY() - vec.getX() * y);
-    return Vec3(a, b, c);
-};
