@@ -15,6 +15,11 @@ else
 	EXT = o
 endif
 
+SRCS := bin/Point3.cpp bin/Vec3.cpp
+OBJS := $(patsubst %.cpp,%.$(EXT),$(SRCS))
+
+# $(info    OBJS are $(OBJS))
+
 all: run_raytracing
 
 bin/%.$(EXT): src/%.cpp
@@ -23,7 +28,7 @@ bin/%.$(EXT): src/%.cpp
 
 ##### Main #####
 
-bin/main: src/main.cpp
+bin/main: src/main.cpp $(OBJS)
 	@$(CREATE_BIN)
 	@$(CXX) $^ -o $@ $(CXXFLAGS)
 
@@ -32,10 +37,16 @@ run_raytracing: bin/main
 
 ##### Tests #####
 
-bin/test_point3: test/test_point3.cpp bin/Point3.$(EXT)
+bin/test_point3: test/test_point3.cpp $(OBJS)
 	@$(CXX) $^ $(CXXFLAGS) -o $@ 
 
 run_test_point3: bin/test_point3
+	@"$(^)"
+
+bin/test_vec3: test/test_vec3.cpp $(OBJS)
+	@$(CXX) $^ $(CXXFLAGS) -o $@ 
+
+run_test_vec3: bin/test_vec3
 	@"$(^)"
 
 
@@ -44,3 +55,5 @@ run_test_point3: bin/test_point3
 clean:
 	@$(CLEAR_BIN)
 
+
+.PHONY: all clean
