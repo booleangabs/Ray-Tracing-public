@@ -32,9 +32,11 @@ run_raytracing: bin/main
 
 ##### Tests #####
 
-test_point3: test/test_point3.cpp bin/Point3.$(EXT)
+bin/test_point3: test/test_point3.cpp bin/Point3.$(EXT)
 	@$(CXX) $^ $(CXXFLAGS) -o $@ 
-	@"$(@)"
+
+run_test_point3: bin/test_point3
+	@"$(^)"
 
 
 ##### Cleanup #####
