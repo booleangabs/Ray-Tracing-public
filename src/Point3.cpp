@@ -21,7 +21,7 @@ Point3 Point3::operator*(double scalar) const {
 }
 
 Point3 operator*(double scalar, Point3 p) {
-    return Point3(p.getX() * scalar, p.getX() * scalar, p.getX() * scalar);
+    return p * scalar;
 }
 
 Point3 Point3::operator/(double scalar) const {
