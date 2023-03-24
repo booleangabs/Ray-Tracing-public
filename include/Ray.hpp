@@ -14,8 +14,8 @@ class Ray {
         Ray(const Point3& from, const Point3& to);
         Ray(const Point3& _origin, const Vec3& _direction);
 
-        Point3 getOrigin();
-        Vec3 getDirection();
+        Point3 getOrigin() const;
+        Vec3 getDirection() const;
 
         Point3 at(double t) const;
 };

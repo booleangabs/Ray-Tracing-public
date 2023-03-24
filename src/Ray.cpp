@@ -12,11 +12,11 @@ Ray::Ray(const Point3& _origin, const Vec3& _direction) {
     direction = _direction;
 };
 
-Point3 Ray::getOrigin() {
+Point3 Ray::getOrigin() const {
     return origin;
 }
 
-Vec3 Ray::getDirection() {
+Vec3 Ray::getDirection() const {
     return direction;
 }
 
