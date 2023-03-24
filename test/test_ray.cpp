@@ -89,13 +89,14 @@ string check_point_vector_init() {
 }
 
 string check_at() { 
-    string info = "Vector addition";
-    Vec3 u(1.0, 1.0, 2.0), v(-1.0, 2.0, 2.5);
-    Vec3 w;
-    w = u + v;
-    w = v + u;
+    string info = "Calculate point in line from parameter";
+    Point3 o = Point3();
+    Vec3 dir(1.0, 1.0, 2.0);
+    Ray r(o, dir);
 
-    bool ok = (w.getX() == 0.0) && (w.getY() == 3.0) && (w.getZ() == 4.5);
+    Point3 p = r.at(5.0);
+
+    bool ok = p.getX() == 5.0 & p.getY() == 5.0 & p.getZ() == 10.0;
 
     string status = get_check_status(ok);
     status += info;
