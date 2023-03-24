@@ -16,6 +16,9 @@ class Ray {
 
         Point3 getOrigin() const;
         Vec3 getDirection() const;
+        void setOrigin(Point3 _origin);
+        void setDirection(Vec3 _dir);
+        void set(Point3 _origin, Vec3 _direction);
 
         Point3 at(double t) const;
 };
