@@ -12,6 +12,14 @@ Ray::Ray(const Point3& _origin, const Vec3& _direction) {
     direction = _direction;
 };
 
+Point3 Ray::getOrigin() {
+    return origin;
+}
+
+Vec3 Ray::getDirection() {
+    return direction;
+}
+
 Point3 Ray::at(double t) const {
     return origin + direction * t;
 };
