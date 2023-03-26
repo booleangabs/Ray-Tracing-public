@@ -1,5 +1,5 @@
 #include "../include/Vec3.hpp"
-// #include "Vec3.hpp"
+#include "Vec3.hpp"
 
 Vec3::Vec3() : x(0), y(0), z(0) {};
 

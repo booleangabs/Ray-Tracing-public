@@ -4,6 +4,7 @@
 #include "Vec3.hpp"
 #include "Point3.hpp"
 #include "Ray.hpp"
+#include "Color.hpp"
 
 class Cam {
 public:
@@ -12,6 +13,8 @@ public:
     void setUVW();
 
     Ray getPrimaryRay(int i, int j) const;
+    Color trace(const Ray& ray, int depth) const;
+
     Vec3 u, v, w; // Vectors
 private:
     Point3 C; // Cam position
@@ -22,6 +25,7 @@ private:
     int vres; // Screen height
     int hres; // Screen width
     double pixelSize; // Pixel size
+    std::vector<std::shared_ptr<Object>> objects;
 };
 
 #endif
