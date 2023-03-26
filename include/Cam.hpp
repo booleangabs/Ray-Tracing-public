@@ -12,7 +12,6 @@ public:
     void setUVW();
 
     Ray getPrimaryRay(int i, int j) const;
-
     Vec3 u, v, w; // Vectors
 private:
     Point3 C; // Cam position

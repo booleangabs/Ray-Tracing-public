@@ -1,5 +1,5 @@
 #include "../include/Ray.hpp"
-#include "Ray.hpp"
+// #include "Ray.hpp"
 
 Ray::Ray() : origin(Point3()), direction(Vec3()) {};
 
