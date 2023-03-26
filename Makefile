@@ -15,7 +15,7 @@ else
 	EXT = o
 endif
 
-SRCS := bin/Point3.cpp bin/Vec3.cpp
+SRCS := bin/Point3.cpp bin/Vec3.cpp bin/Ray.cpp
 OBJS := $(patsubst %.cpp,%.$(EXT),$(SRCS))
 
 # $(info    OBJS are $(OBJS))
@@ -49,6 +49,12 @@ bin/test_vec3: test/test_vec3.cpp $(OBJS)
 run_test_vec3: bin/test_vec3
 	@"$(^)"
 
+
+bin/test_ray: test/test_ray.cpp $(OBJS)
+	@$(CXX) $^ $(CXXFLAGS) -o $@ 
+
+run_test_ray: bin/test_ray
+	@"$(^)"
 
 ##### Cleanup #####
 
