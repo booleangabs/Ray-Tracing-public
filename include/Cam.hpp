@@ -7,13 +7,12 @@
 
 class Cam {
 public:
-    Cam();
     Cam(const Point3& c, const Point3& m, const Vec3& vup,
            double d, double fovy,int vres, int hres);
     void setUVW();
 
     Ray getPrimaryRay(int i, int j) const;
-    
+
     Vec3 u, v, w; // Vectors
 private:
     Point3 C; // Cam position

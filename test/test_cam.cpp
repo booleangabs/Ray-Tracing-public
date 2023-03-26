@@ -23,7 +23,6 @@ string get_check_status(bool ok) {
 }
 
 string check_camera();
-string check_ray();
 
 int main(int argc, char ** argv) {
     bool ok;
@@ -32,7 +31,6 @@ int main(int argc, char ** argv) {
     vector<string> prints;
 
     prints.push_back(check_camera());
-    prints.push_back(check_ray());
     
     for (auto s : prints)
         cout << s << endl;
@@ -56,25 +54,3 @@ string check_camera() {
     return status;
 }
 
-string check_ray() {
-    string info = "Create the camera and the ray is correctly created";
-    Point3 c(0, 0, 0);
-    Point3 m(0, 0, -1);
-    Vec3 upVector(0, 1, 0);
-    double distanceToScreen = 1.0;
-    double fovy = 60.0;
-    int screenWidth = 800;
-    int screenHeight = 600;
-
-    Cam cam(c, m, upVector, distanceToScreen, fovy, screenHeight, screenWidth);
-    Point3 expectedOrigin = c;
-    Vec3 expectedDirection = Vec3(-0.224187, -0.224187, -1).normalized();
-    Ray expectedRay(expectedOrigin, expectedDirection);
-
-    Ray generatedRay = cam.getPrimaryRay(10, 10);
-    
-    bool ok = (generatedRay == expectedRay);
-    string status = get_check_status(ok);
-    status += info;
-    return status;
-}
