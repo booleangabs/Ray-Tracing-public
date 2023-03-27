@@ -16,6 +16,10 @@ class Vec3{
         double getX() const;
         double getY() const;
         double getZ() const;
+        void setX(double _x);
+        void setY(double _y);
+        void setZ(double _z);
+        void set(double _x, double _y, double _z);
 
         double length() const;
         double lengthSqr() const;

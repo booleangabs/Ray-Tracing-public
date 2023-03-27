@@ -24,6 +24,24 @@ double Vec3::getZ() const {
     return z;
 }
 
+void Vec3::setX(double _x) {
+    x = _x;
+}
+
+void Vec3::setY(double _y) {
+    y = _y;
+}
+
+void Vec3::setZ(double _z) {
+    z = _z;
+}
+
+void Vec3::set(double _x, double _y, double _z) {
+    x = _x;
+    y = _y;
+    z = _z;
+}
+
 // Length
 double Vec3::length() const {
     return sqrt(x * x + y * y + z * z);
