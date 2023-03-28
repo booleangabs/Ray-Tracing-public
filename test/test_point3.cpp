@@ -26,6 +26,8 @@ string check_multiply();
 string check_division();
 
 int main(int argc, char ** argv) {
+    std::cout << "\n---Test Point3---" << std::endl;
+
     bool ok;
     string status;
     string details;

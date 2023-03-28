@@ -1,4 +1,4 @@
-#include "../include/Point3.hpp"
+#include "Point3.hpp"
 
 Point3::Point3() : x(0), y(0), z(0) {}
 

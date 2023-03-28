@@ -1,6 +1,6 @@
 #include "../include/Color.hpp"
 
-Color::Color(double r = 0, double g = 0, double b = 0): r(r), g(g), b(b) {};
+Color::Color(double r, double g, double b): r(r), g(g), b(b) {};
 
 Color Color::operator*(const Color& c) const {
     return Color(r * c.r, g * c.g, b * c.b);

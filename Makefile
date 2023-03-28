@@ -15,10 +15,15 @@ else
 	EXT = o
 endif
 
-SRCS := bin/Point3.cpp bin/Vec3.cpp bin/Ray.cpp
+SRCS := bin/Point3.cpp bin/Vec3.cpp bin/Ray.cpp \
+		bin/Color.cpp bin/Image.cpp
 OBJS := $(patsubst %.cpp,%.$(EXT),$(SRCS))
 
 # $(info    OBJS are $(OBJS))
+
+ifndef IMAGE_PATH
+	IMAGE_PATH=data_output/image.ppm
+endif
 
 all: run_raytracing
 
@@ -37,24 +42,32 @@ run_raytracing: bin/main
 
 ##### Tests #####
 
-bin/test_point3: test/test_point3.cpp $(OBJS)
+bin/test_point3: test/test_point3.cpp bin/Point3.$(EXT)
 	@$(CXX) $^ $(CXXFLAGS) -o $@ 
 
 run_test_point3: bin/test_point3
 	@"$(^)"
 
-bin/test_vec3: test/test_vec3.cpp $(OBJS)
+bin/test_vec3: test/test_vec3.cpp bin/Point3.$(EXT) bin/Vec3.$(EXT)
 	@$(CXX) $^ $(CXXFLAGS) -o $@ 
 
 run_test_vec3: bin/test_vec3
 	@"$(^)"
 
-
-bin/test_ray: test/test_ray.cpp $(OBJS)
+bin/test_ray: test/test_ray.cpp bin/Point3.$(EXT) bin/Vec3.$(EXT) bin/Ray.$(EXT)
 	@$(CXX) $^ $(CXXFLAGS) -o $@ 
 
 run_test_ray: bin/test_ray
 	@"$(^)"
+
+bin/test_image: test/test_image.cpp bin/Color.$(EXT) bin/Image.$(EXT)
+	@$(CXX) $^ $(CXXFLAGS) -o $@ 
+
+run_test_image: bin/test_image
+	@"$(^)" $(IMAGE_PATH)
+
+
+run_tests: run_test_point3 run_test_vec3 run_test_ray run_test_image
 
 ##### Cleanup #####
 
