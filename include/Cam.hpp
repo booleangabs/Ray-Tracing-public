@@ -48,6 +48,9 @@ class Cam {
         double getPixelSize();
 
         Color trace(const Ray& ray, int depth) const;
+
+        Image dummy_render_xy();
+        Image dummy_render_rays();
 };
 
 #endif

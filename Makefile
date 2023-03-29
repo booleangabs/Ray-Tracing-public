@@ -26,6 +26,13 @@ ifndef IMAGE_PATH
 	IMAGE_PATH=data_output/image.ppm
 endif
 
+# cam mode 0 -> Encode x and y coordinates
+# cam mode 1 -> Encode ray directions
+# cam mode 2 -> Actual camera
+ifndef CAM_MODE
+	CAM_MODE=0
+endif
+
 all: run_raytracing
 
 bin/%.$(EXT): src/%.cpp
@@ -65,13 +72,13 @@ bin/test_image: test/test_image.cpp bin/Color.$(EXT) bin/Image.$(EXT)
 	@$(CXX) $^ $(CXXFLAGS) -o $@ 
 
 run_test_image: bin/test_image
-	@"$(^)" $(IMAGE_PATH)
+	@"$(^)"
 
 bin/test_cam: test/test_cam.cpp $(OBJS)
 	@$(CXX) $^ $(CXXFLAGS) -o $@ 
 
 run_test_cam: bin/test_cam
-	@"$(^)" $(IMAGE_PATH)
+	@"$(^)" $(IMAGE_PATH) $(CAM_MODE)
 
 
 run_tests: run_test_point3 run_test_vec3 run_test_ray run_test_image \

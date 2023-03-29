@@ -29,9 +29,17 @@ string get_check_status(bool ok) {
 
 string check_camera();
 string check_primary_ray();
+void do_render(int cam_mode, std::string path);
 
 int main(int argc, char ** argv) {
     std::cout << "\n---Test Camera---" << std::endl;
+
+    if (argc < 3) {
+        std::cout << "Usage: ./test_cam.(o/exe) <output/file/path> cam_mode" << std::endl;
+        return -1;
+    }
+    const std::string path = (std::string) argv[1];
+    const int cam_mode = atoi(argv[2]);
 
     bool ok;
     string status;
@@ -40,9 +48,11 @@ int main(int argc, char ** argv) {
 
     prints.push_back(check_camera());
     prints.push_back(check_primary_ray());
-    
+     
     for (auto s : prints)
         cout << s << endl;
+
+    do_render(cam_mode, path);
 }
 
 string check_camera() {
@@ -91,4 +101,33 @@ string check_primary_ray() {
     string status = get_check_status(ok1 && ok2);
     status += info;
     return status;
+}
+
+void do_render(int cam_mode, std::string path) {
+    Point3 c(0, 0, 0);
+    Point3 m(0, 0, -1);
+    Vec3 upVector(0, 1, 0);
+    double distanceToScreen = 1.0;
+    double fovy = 60.0;
+    int screenWidth = 640;
+    int screenHeight = 480;
+
+    Cam cam(c, m, upVector, distanceToScreen, fovy, screenHeight, screenWidth);
+
+    Image result(screenHeight, screenWidth);
+
+    switch (cam_mode) {
+        case 0:
+            result = cam.dummy_render_xy();
+            break;
+        
+        case 1:
+            result = cam.dummy_render_rays();
+            break;
+
+        default:
+            break;
+    }
+
+    result.save(path);
 }
