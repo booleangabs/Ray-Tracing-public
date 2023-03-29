@@ -2,22 +2,18 @@
 #define COLOR_H
 
 class Color {
-public:
-    double r, g, b;
+    public:
+        double r, g, b;
 
-    Color(double r = 0, double g = 0, double b = 0);
+        Color(double r = 0, double g = 0, double b = 0);
 
-    Color operator*(const Color& c) const;
+        Color operator*(const Color& c) const;
+        Color operator*(double s) const;
+        Color operator/(double s) const;
+        Color operator+(const Color& c) const;
+        Color operator-(const Color& c) const;
 
-    Color operator*(double s) const;
-
-    Color operator/(double s) const;
-
-    Color operator+(const Color& c) const;
-
-    Color operator-(const Color& c) const;
-
-    void clamp();
+        void clamp();
 };
 
 #endif

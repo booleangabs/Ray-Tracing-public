@@ -2,8 +2,7 @@
 #define MATERIAL_H
 
 #include "Color.hpp"
-#include "Ray.hpp"
-#include "HitRecord.hpp"
+#include "Vec3.hpp"
 
 class Material {
     private:

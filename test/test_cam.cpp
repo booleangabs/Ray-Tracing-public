@@ -1,11 +1,12 @@
-#include "../include/Point3.hpp"
-#include "../include/Vec3.hpp"
-#include "../include/Ray.hpp"
-#include "../include/Cam.hpp"
-#include "../src/Ray.cpp"
-#include "../src/Cam.cpp"
+#include "Point3.hpp"
+#include "Vec3.hpp"
+#include "Ray.hpp"
+#include "Cam.hpp"
+#include "Ray.hpp"
+#include "Cam.hpp"
 #include <iostream>
 #include <vector>
+#include "math.h"
 
 using namespace std;
 
@@ -30,6 +31,8 @@ string check_camera();
 string check_primary_ray();
 
 int main(int argc, char ** argv) {
+    std::cout << "\n---Test Camera---" << std::endl;
+
     bool ok;
     string status;
     string details;
@@ -53,7 +56,7 @@ string check_camera() {
     int screenHeight = 600;
 
     Cam cam(c, m, upVector, distanceToScreen, fovy, screenHeight, screenWidth);
-    bool ok = (cam.w == Vec3(0,0,1) && cam.u == Vec3(1,0,0) && cam.v == Vec3(0,1,0));
+    bool ok = (cam.getW() == Vec3(0,0,1) && cam.getU() == Vec3(1,0,0) && cam.getV() == Vec3(0,1,0));
 
     string status = get_check_status(ok);
     status += info;
@@ -77,13 +80,15 @@ string check_primary_ray() {
     Ray expectedRay(expectedOrigin, expectedDirection);
 
     Ray generatedRay = cam.getPrimaryRay(10, 10);
+    Point3 generatedOrigin = generatedRay.getOrigin();
+    
+    Vec3 diff = (generatedRay.getDirection() - expectedRay.getDirection());
+    bool ok1 = (std::abs(diff.getX()) < 1e-5) && (std::abs(diff.getY()) < 1e-5) && (std::abs(diff.getZ()) < 1e-5);
+    bool ok2 = (generatedOrigin.getX() == expectedOrigin.getX()) &&
+                (generatedOrigin.getY() == expectedOrigin.getY()) &&
+                (generatedOrigin.getZ() == expectedOrigin.getZ());
 
-    bool ok = (((generatedRay.getOrigin().getX() == expectedRay.getOrigin().getX()) && 
-            (generatedRay.getOrigin().getY() == expectedRay.getOrigin().getY()) &&
-            (generatedRay.getOrigin().getZ() == expectedRay.getOrigin().getZ())) &&
-            (generatedRay.getDirection() == expectedRay.getDirection()));
-
-    string status = get_check_status(ok);
+    string status = get_check_status(ok1 && ok2);
     status += info;
     return status;
 }

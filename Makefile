@@ -16,7 +16,8 @@ else
 endif
 
 SRCS := bin/Point3.cpp bin/Vec3.cpp bin/Ray.cpp \
-		bin/Color.cpp bin/Image.cpp
+		bin/Color.cpp bin/Image.cpp bin/Cam.cpp \
+		bin/Material.cpp bin/HitRecord.cpp
 OBJS := $(patsubst %.cpp,%.$(EXT),$(SRCS))
 
 # $(info    OBJS are $(OBJS))
@@ -66,8 +67,15 @@ bin/test_image: test/test_image.cpp bin/Color.$(EXT) bin/Image.$(EXT)
 run_test_image: bin/test_image
 	@"$(^)" $(IMAGE_PATH)
 
+bin/test_cam: test/test_cam.cpp $(OBJS)
+	@$(CXX) $^ $(CXXFLAGS) -o $@ 
 
-run_tests: run_test_point3 run_test_vec3 run_test_ray run_test_image
+run_test_cam: bin/test_cam
+	@"$(^)" $(IMAGE_PATH)
+
+
+run_tests: run_test_point3 run_test_vec3 run_test_ray run_test_image \
+			run_test_cam
 
 ##### Cleanup #####
 
