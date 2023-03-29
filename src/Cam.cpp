@@ -22,7 +22,7 @@ void Cam::calculateUVW(){
 Ray Cam::getPrimaryRay(int i, int j) const {
     // Calculates the coordinates of the center of the pixel on the screen
     double x = (j - (hres / 2) + 0.5) * pixelSize;
-    double y = (i - (vres / 2) + 0.5) * pixelSize;
+    double y = -(i - (vres / 2) + 0.5) * pixelSize;
 
     // Calculates the direction of the primary ray
     Vec3 direction = d*w - x*u - y*v;
