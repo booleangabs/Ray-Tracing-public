@@ -5,106 +5,89 @@
 #include <vector>
 #include <memory>
 
-Cam::Cam(const Point3& c, const Point3& m, const Vec3& vup,
-         double d, double fovy,int vres, int hres) 
-        : C(c), M(m), Vup(vup), d(d), fovy(fovy), vres(vres), hres(hres) {
-    calculateUVW();
-    pixelSize = 2.0 * d * tan(fovy/2) / vres;
-};
 
-void Cam::calculateUVW(){
-    //Defines the vectors u, v and w orthonormal
-    w = Vec3(M, C).normalized();
-    u = Vup.cross(w).normalized();
-    v = w.cross(u);
-};
+Cam::Cam(const Point3 &_position, const Point3 &_target, const Vec3 &_upVector, 
+         double _focalDistance, int _screenHeight, int _screenWidth)
+        : position(_position), target(_target), upVector(_upVector), focalDistance(_focalDistance), 
+            screenHeight(_screenHeight), screenWidth(_screenWidth) {
+    calculateBasis();
+    aspectRatio = double(screenWidth) / screenHeight;
+    viewportWidth = 2.0 * aspectRatio;
+    viewportHeight = 2.0;
+}
+
+void Cam::calculateBasis() {
+    camForward = Vec3(target, position).normalized();
+    camRight = upVector.cross(camForward).normalized();
+    camUp = camForward.cross(camRight);
+}
 
 Ray Cam::getPrimaryRay(int i, int j) const {
-    // Calculates the coordinates of the center of the pixel on the screen
-    double x = (j - (hres / 2) + 0.5) * pixelSize;
-    double y = -(i - (vres / 2) + 0.5) * pixelSize;
+    double x_ = (j + 0.5) / screenWidth;
+    double y_ = (i + 0.5) / screenHeight;
+    
+    double x = (2.0 * x_ - 1.0) * aspectRatio;
+    double y = (1.0 - 2.0 * y_);
 
     // Calculates the direction of the primary ray
-    Vec3 direction = d*w - x*u - y*v;
+    Vec3 direction = -focalDistance * camForward 
+                        + x * camRight
+                        + y * camUp;
 
     // Creates primary ray with origin at camera position
-    return Ray(C, direction.normalized());
-};
-
-void Cam::setPosition(Point3 _C) {
-    C = _C;
+    return Ray(position, direction.normalized());
 }
 
-void Cam::setTarget(Point3 _M) {
-    M = _M;
+void Cam::setPosition(Point3 _position) {
+    position = _position;
 }
 
-void Cam::setFocalDist(double _d) {
-    d = _d;
+void Cam::setTarget(Point3 _target) {
+    target = _target;
 }
 
-void Cam::setFov(double _fovy) {
-    fovy = _fovy;
+void Cam::setFocalDistance(double _focalDistance) {
+    focalDistance = _focalDistance;
 }
 
-void Cam::setVerticalRes(double _vres) {
-    vres = _vres;
+void Cam::setScreenHeight(double _screenHeight) {
+    screenHeight = _screenHeight;
 }
 
-void Cam::setHorizRes(double _hres) {
-    hres = _hres;
-}
-
-void Cam::setPixelSize(double _pixelSize) {
-    pixelSize = _pixelSize;
-}
-
-Point3 Cam::getC() {
-    return C;
-}
-
-Point3 Cam::getM() {
-    return M;
-}
-
-Vec3 Cam::getU() {
-    return u;
-}
-
-Vec3 Cam::getV() {
-    return v;
-}
-
-Vec3 Cam::getW() {
-    return w;
+void Cam::setScreenWidth(double _screenWidth) {
+    screenWidth = _screenWidth;
 }
 
 Point3 Cam::getPosition() {
-    return C;    
+    return position;
 }
 
-Point3 Cam::getTarget() { 
-    return M;
+Point3 Cam::getTarget() {
+    return target;
 }
 
-double Cam::getFocalDist() { 
-    return d;
+Vec3 Cam::getRightVector() {
+    return camRight;
 }
 
-double Cam::getFov() { 
-    return fovy;
+Vec3 Cam::getUpVector() {
+    return camUp;
 }
 
-double Cam::getVerticalRes() { 
-    return vres;
+Vec3 Cam::getForwardVector() {
+    return camForward;
 }
 
-double Cam::getHorizRes() { 
-    return hres;
+double Cam::getFocalDistance() {
+    return focalDistance;
 }
 
-double Cam::getPixelSize() { 
-    return pixelSize;
+double Cam::getScreenHeight() {
+    return screenHeight;
+}
+
+double Cam::getScreenWidth() {
+    return screenWidth;
 }
 
 Color Cam::trace(const Ray& ray, int depth) const {
@@ -121,57 +104,50 @@ Color Cam::trace(const Ray& ray, int depth) const {
     // }
 
     return color;
-};
+}
 
-Image Cam::dummy_render_xy() {
-    Image img(vres, hres);
+Image Cam::dummyRenderXY() {
+    Image img(screenHeight, screenWidth);
     
-    for (int i = 0; i < vres; i++) {
-        for (int j = 0; j < hres; j++) {
-            img.setPixel(i, j, Color((float)i / vres, (float)j / hres, 0.0));
+    for (int i = 0; i < screenHeight; i++) {
+        for (int j = 0; j < screenWidth; j++) {
+            img.setPixel(i, j, Color((float)i / screenHeight, (float)j / screenWidth, 0.0));
         }
     }
 
     return img;
 }
 
-Image Cam::dummy_render_rays() {
-    Image img(vres, hres);
+Image Cam::dummyRenderRays() {
+    Image img(screenHeight, screenWidth);
     
     double minx = std::numeric_limits<double>::max();
     double miny = std::numeric_limits<double>::max();
-    double minz = std::numeric_limits<double>::max();
     double maxx = std::numeric_limits<double>::min();
     double maxy = std::numeric_limits<double>::min();
-    double maxz = std::numeric_limits<double>::min();
 
-    for (int i = 0; i < vres; i++) {
-        for (int j = 0; j < hres; j++) {
+    for (int i = 0; i < screenHeight; i++) {
+        for (int j = 0; j < screenWidth; j++) {
             Ray ray_ = getPrimaryRay(i, j);
             double rdx = ray_.getDirection().getX();
             double rdy = ray_.getDirection().getY();
-            double rdz = ray_.getDirection().getZ();
-            img.setPixel(i, j, Color(rdx, rdy, rdz));
+            img.setPixel(i, j, Color(rdx, rdy, 0.0));
 
             if (rdx < minx) minx = rdx;
             else if (rdx > maxx) maxx = rdx;
 
             if (rdy < miny) miny = rdy;
             else if (rdy > maxy) maxy = rdy;
-
-            if (rdz < minz) minz = rdz;
-            else if (rdz > maxz) maxz = rdz;
         }
     }
 
 
-    for (int i = 0; i < vres; i++) {
-        for (int j = 0; j < hres; j++) {
+    for (int i = 0; i < screenHeight; i++) {
+        for (int j = 0; j < screenWidth; j++) {
             Color curr = img.getPixel(i, j);
             double r = (curr.r - minx) / (maxx - minx);
             double g = (curr.g - miny) / (maxy - miny);
-            double b = (curr.b - minz) / (maxz - minz);
-            img.setPixel(i, j, Color(r, g, b));
+            img.setPixel(i, j, Color(r, g, 0.0));
         }
     }
 

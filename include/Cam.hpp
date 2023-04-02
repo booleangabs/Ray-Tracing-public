@@ -9,48 +9,43 @@
 
 class Cam {
     private:
-        Point3 C; // Cam position
-        Point3 M; // Where the cam it's pointing 
-        Vec3 Vup; // Vector that points up
-        Vec3 u, v, w; // Vectors
-        double d; // Distance between the cam and screen
-        double fovy; // Cam opening angle in y
-        int vres; // Screen height
-        int hres; // Screen width
-        double pixelSize; // Pixel size
+        Point3 position; // Cam position
+        Point3 target; // Where the cam it's pointing 
+        Vec3 upVector; // Vector that points up
+        Vec3 camRight, camUp, camForward; // Vectors
+        double focalDistance; // Distance between the cam and screen
+        int screenWidth; 
+        int screenHeight;
+        double aspectRatio;
+        double viewportWidth;
+        double viewportHeight;
         
     public:
-        Cam(const Point3& c, const Point3& m, const Vec3& vup,
-            double d, double fovy, int vres, int hres);
+        Cam(const Point3& _position, const Point3& _target, const Vec3& _upVector,
+            double _focalDistance, int _screenHeight, int _screenWidth);
 
-        void calculateUVW();
+        void calculateBasis();
         Ray getPrimaryRay(int i, int j) const;
         
-        void setPosition(Point3 _C);
-        void setTarget(Point3 _M);
-        void setFocalDist(double _d);
-        void setFov(double _fovy);
-        void setVerticalRes(double _vres);
-        void setHorizRes(double _hres);
-        void setPixelSize(double _pixelSize);
+        void setPosition(Point3 _position);
+        void setTarget(Point3 _target);
+        void setFocalDistance(double _focalDistance);
+        void setScreenHeight(double _screenHeight);
+        void setScreenWidth(double _screenWidth);
 
-        Point3 getC();
-        Point3 getM();
-        Vec3 getU();
-        Vec3 getV();
-        Vec3 getW();
         Point3 getPosition();
         Point3 getTarget();
-        double getFocalDist();
-        double getFov();
-        double getVerticalRes();
-        double getHorizRes();
-        double getPixelSize();
+        Vec3 getRightVector();
+        Vec3 getUpVector();
+        Vec3 getForwardVector();
+        double getFocalDistance();
+        double getScreenHeight();
+        double getScreenWidth();
 
         Color trace(const Ray& ray, int depth) const;
 
-        Image dummy_render_xy();
-        Image dummy_render_rays();
+        Image dummyRenderXY();
+        Image dummyRenderRays();
 };
 
 #endif

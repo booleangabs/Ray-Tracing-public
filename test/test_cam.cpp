@@ -61,12 +61,13 @@ string check_camera() {
     Point3 m(0, 0, -1);
     Vec3 upVector(0, 1, 0);
     double distanceToScreen = 1.0;
-    double fovy = 60.0;
     int screenWidth = 800;
     int screenHeight = 600;
 
-    Cam cam(c, m, upVector, distanceToScreen, fovy, screenHeight, screenWidth);
-    bool ok = (cam.getW() == Vec3(0,0,1) && cam.getU() == Vec3(1,0,0) && cam.getV() == Vec3(0,1,0));
+    Cam cam(c, m, upVector, distanceToScreen, screenHeight, screenWidth);
+    bool ok = (cam.getForwardVector() == Vec3(0,0,1) 
+                && cam.getRightVector() == Vec3(1,0,0) 
+                && cam.getUpVector() == Vec3(0,1,0));
 
     string status = get_check_status(ok);
     status += info;
@@ -79,11 +80,10 @@ string check_primary_ray() {
     Point3 m(0, 0, -1);
     Vec3 upVector(0, 1, 0);
     double distanceToScreen = 1.0;
-    double fovy = 60.0;
     int screenWidth = 800;
     int screenHeight = 600;
 
-    Cam cam(c, m, upVector, distanceToScreen, fovy, screenHeight, screenWidth);
+    Cam cam(c, m, upVector, distanceToScreen, screenHeight, screenWidth);
 
     Point3 expectedOrigin = c;
     Vec3 expectedDirection = Vec3(-0.213703, -0.213703, -0.953238);
@@ -108,21 +108,20 @@ void do_render(int cam_mode, std::string path) {
     Point3 m(0, 0, -1);
     Vec3 upVector(0, 1, 0);
     double distanceToScreen = 1.0;
-    double fovy = 60.0;
     int screenWidth = 640;
     int screenHeight = 480;
 
-    Cam cam(c, m, upVector, distanceToScreen, fovy, screenHeight, screenWidth);
+    Cam cam(c, m, upVector, distanceToScreen, screenHeight, screenWidth);
 
     Image result(screenHeight, screenWidth);
 
     switch (cam_mode) {
         case 0:
-            result = cam.dummy_render_xy();
+            result = cam.dummyRenderXY();
             break;
         
         case 1:
-            result = cam.dummy_render_rays();
+            result = cam.dummyRenderRays();
             break;
 
         default:
