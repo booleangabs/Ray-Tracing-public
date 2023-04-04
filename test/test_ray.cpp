@@ -89,6 +89,8 @@ string check_point_vector_init() {
 }
 
 string check_at() { 
+    std::cout << "\n---Test Ray---" << std::endl;
+
     string info = "Calculate point in line from parameter";
     Point3 o = Point3();
     Vec3 dir(1.0, 1.0, 2.0);

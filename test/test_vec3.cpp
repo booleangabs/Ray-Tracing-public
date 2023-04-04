@@ -36,6 +36,8 @@ string check_cross_product();
 
 
 int main(int argc, char ** argv) {
+    std::cout << "\n---Test Vec3---" << std::endl;
+
     bool ok;
     string status;
     string details;
