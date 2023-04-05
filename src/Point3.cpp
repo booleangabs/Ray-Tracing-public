@@ -51,3 +51,7 @@ bool Point3::operator==(Point3 other) const {
             && (y == other.getY())
             && (z == other.getZ());
 }
+
+std::ostream& operator<<(std::ostream &s, const Point3 &p) {
+    return s << "Point3(" << p.getX() << ", " << p.getY() << ", " << p.getZ() << ")";
+}
