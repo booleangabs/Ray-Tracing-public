@@ -4,10 +4,6 @@
 
 using namespace std;
 
-ostream& operator<<(ostream &s, const Point3 &p) {
-    return s << "Point3(" << p.getX() << ", " << p.getY() << ", " << p.getZ() << ")";
-}
-
 string get_check_status(bool ok) {
     string status;
     switch (ok) {
@@ -44,7 +40,7 @@ int main(int argc, char ** argv) {
 string check_empty_init() {
     string info = "Empty point should initialize to origin";
     Point3 p;
-    bool ok = (p.getX() == 0.0) && (p.getY() == 0.0) && (p.getZ() == 0.0);
+    bool ok = (p == Point3(0, 0, 0));
     string status = get_check_status(ok);
     status += info;
     return status;
@@ -55,12 +51,12 @@ string check_multiply() {
     Point3 p(1.0, 1.0, 1.0);
 
     Point3 q = p * 2.0;
-    bool ok1 = (q.getX() == 2.0) && (q.getY() == 2.0) && (q.getZ() == 2.0);
+    bool ok1 = (q == Point3(2.0, 2.0, 2.0));
 
     q = 3.0 * p;
-    bool ok2 = (q.getX() == 3.0) && (q.getY() == 3.0) && (q.getZ() == 3.0);
+    bool ok2 = (q == Point3(3.0, 3.0, 3.0));
 
-    string status = get_check_status(ok1 & ok2);
+    string status = get_check_status(ok1 && ok2);
     status += info;
     return status;
 }
@@ -69,7 +65,7 @@ string check_division() {
     string info = "Scalar division";
     Point3 p(1.0, 1.0, 1.0);
     Point3 q = p / 2.0;
-    bool ok = (q.getX() == 0.5) && (q.getY() == 0.5) && (q.getZ() == 0.5);
+    bool ok = (q == Point3(0.5, 0.5, 0.5));
     string status = get_check_status(ok);
     status += info;
     return status;
