@@ -114,7 +114,7 @@ string check_vec_point_add() {
     q = p + v;
     q = v + p;
 
-    bool ok = (q.getX() == 0.0) && (q.getY() == 3.0) && (q.getZ() == 4.5);
+    bool ok = (q == Point3(0.0, 3.0, 4.5));
 
     string status = get_check_status(ok);
     status += info;

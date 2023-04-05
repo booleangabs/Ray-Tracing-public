@@ -45,3 +45,9 @@ Point3 operator*(double scalar, Point3 p) {
 Point3 Point3::operator/(double scalar) const {
     return Point3(x / scalar, y / scalar, z / scalar);
 }
+
+bool Point3::operator==(Point3 other) const {
+    return (x == other.getX())
+            && (y == other.getY())
+            && (z == other.getZ());
+}

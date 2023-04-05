@@ -1,6 +1,8 @@
 #ifndef POINT3_H
 #define POINT3_H
 
+#include <iostream>
+
 class Point3 {
     private:
         double x, y, z;
@@ -19,8 +21,13 @@ class Point3 {
 
         Point3 operator/(double scalar) const;
         Point3 operator*(double scalar) const;
+        bool operator==(Point3 other) const;
 };
 
 Point3 operator*(double scalar, Point3 p);
+
+std::ostream& operator<<(std::ostream &s, const Point3 &p) {
+    return s << "Point3(" << p.getX() << ", " << p.getY() << ", " << p.getZ() << ")";
+}
 
 #endif
