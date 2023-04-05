@@ -26,8 +26,6 @@ class Point3 {
 
 Point3 operator*(double scalar, Point3 p);
 
-std::ostream& operator<<(std::ostream &s, const Point3 &p) {
-    return s << "Point3(" << p.getX() << ", " << p.getY() << ", " << p.getZ() << ")";
-}
+std::ostream& operator<<(std::ostream &s, const Point3 &p);
 
 #endif
