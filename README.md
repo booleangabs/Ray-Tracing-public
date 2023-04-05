@@ -12,6 +12,7 @@ make
 ```
 
 ## Tests
+For building in linux, add WINDOWS=false at the end. For windows, just copy and run.
 ```
 make run_tests CAM_MODE=0 IMAGE_PATH=data_output/encoded_coords.ppm
 ```

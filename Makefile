@@ -15,10 +15,10 @@ else
 	EXT = o
 endif
 
-SRCS := bin/Point3.cpp bin/Vec3.cpp bin/Ray.cpp \
-		bin/Color.cpp bin/Image.cpp bin/Cam.cpp \
-		bin/Material.cpp bin/HitRecord.cpp
-OBJS := $(patsubst %.cpp,%.$(EXT),$(SRCS))
+SRCS := bin/Point3.EXT bin/Vec3.EXT bin/Ray.EXT \
+		bin/Color.EXT bin/Image.EXT bin/Cam.EXT \
+		bin/Material.EXT bin/HitRecord.EXT
+OBJS := $(patsubst %.EXT,%.$(EXT),$(SRCS))
 
 # $(info    OBJS are $(OBJS))
 
