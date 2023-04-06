@@ -1,25 +1,31 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "Vec3.hpp"
-#include "Point3.hpp"
-#include "Ray.hpp"
-#include "Color.hpp"
-#include "Image.hpp"
+#include "Material.hpp"
+#include "Object.hpp"
+#include "HitRecord.hpp"
+#include <vector>
+#include <limits>
+
+#define T_MIN 1e-5
 
 class Scene{
-
-    public:
-        Scene(Vec3 background, Color* ambientcolor);
-        void setObject(Object* actualObjetic); //Seta o objeto na cena atual
-        //Funcoes pra o traço de luz e interseçao
     private:
-        Color *ambientcolor;
-        Vec3 background;
-        vector<*Object> sceneObject;
-        //Algum metodo de iluminaçao escolhido(trabalha junto com o traço)
+        Color ambientColor;
+        std::vector<Object*> sceneObjects;
+        
+    public:
+        Scene();
+        Scene(const Color& _ambientColor);
 
+        void addObject(Object* _object);
+        Object* operator [](const unsigned int i);
+        int getNumObjects();
+
+        Color getAmbientColor();
+        void setAmbientColor(Color _ambientColor);
+
+        bool intersect(Ray ray, HitRecord& hitRecord) const;
 };
-
 
 #endif
