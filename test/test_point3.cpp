@@ -1,4 +1,5 @@
 #include "Point3.hpp"
+#include "Vec3.hpp"
 #include <iostream>
 #include <vector>
 
@@ -20,6 +21,7 @@ string get_check_status(bool ok) {
 string check_empty_init();
 string check_multiply();
 string check_division();
+string check_subtraction();
 
 int main(int argc, char ** argv) {
     std::cout << "\n---Test Point3---" << std::endl;
@@ -32,6 +34,7 @@ int main(int argc, char ** argv) {
     prints.push_back(check_empty_init());
     prints.push_back(check_multiply());
     prints.push_back(check_division());
+    prints.push_back(check_subtraction());
 
     for (auto s : prints)
         cout << s << endl;
@@ -66,6 +69,18 @@ string check_division() {
     Point3 p(1.0, 1.0, 1.0);
     Point3 q = p / 2.0;
     bool ok = (q == Point3(0.5, 0.5, 0.5));
+    string status = get_check_status(ok);
+    status += info;
+    return status;
+}
+
+string check_subtraction() {
+    string info = "Vector from point subtraction";
+    Point3 p(1.0, 1.0, 1.0);
+    Point3 q = p / 2.0;
+
+    Vec3 v = p - q;
+    bool ok = (v == Vec3(0.5, 0.5, 0.5));
     string status = get_check_status(ok);
     status += info;
     return status;
