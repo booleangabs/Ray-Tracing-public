@@ -25,6 +25,10 @@ bool Mesh::intersect(const Ray& ray, double t_min, HitRecord& hitRecord) const {
                 const Point3 p = ray.at(t);
 
                 const Vec3 w = p - v0;
+                /*
+                    The Barycentric coordinates u, v are defined as the ratios of the areas of the sub-triangles
+                    formed by the intersection point and the vertices of the triangle to the area of the entire triangle. 
+                */
                 const double u = edge2.cross(w).dot(normal) / edge1.cross(edge2).dot(normal);
                 const double v = edge1.cross(w).dot(normal) / edge1.cross(edge2).dot(normal);
                 if (u >= 0 && v >= 0 && u + v <= 1) {
