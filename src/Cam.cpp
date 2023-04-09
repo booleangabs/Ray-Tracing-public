@@ -1,10 +1,4 @@
 #include "Cam.hpp"
-#include "HitRecord.hpp"
-#include "Object.hpp"
-#include <limits>
-#include <vector>
-#include <memory>
-
 
 Cam::Cam(const Point3 &_position, const Point3 &_target, const Vec3 &_upVector, 
          double _focalDistance, int _screenHeight, int _screenWidth)
@@ -17,7 +11,7 @@ Cam::Cam(const Point3 &_position, const Point3 &_target, const Vec3 &_upVector,
 }
 
 void Cam::calculateBasis() {
-    camForward = Vec3(target, position).normalized();
+    camForward = (position - target).normalized();
     camRight = upVector.cross(camForward).normalized();
     camUp = camForward.cross(camRight);
 }
@@ -36,6 +30,29 @@ Ray Cam::getPrimaryRay(int i, int j) const {
 
     // Creates primary ray with origin at camera position
     return Ray(position, direction.normalized());
+}
+
+Color Cam::trace(const Ray& ray, Scene& scene, int depth) const {
+    HitRecord hitRecord;
+
+    Color color = Color(0.2, 0.2, 0.2);
+    bool hit = scene.intersect(ray, hitRecord);
+    if (hit)
+        color = hitRecord.material.getAlbedo();
+    return color;
+}
+
+Image Cam::render(Scene& scene) {
+    Image img(screenHeight, screenWidth);
+    
+    for (int i = 0; i < screenHeight; i++) {
+        for (int j = 0; j < screenWidth; j++) {
+            Ray ray = getPrimaryRay(i, j);
+            img.setPixel(i, j, trace(ray, scene, 0));
+        }
+    }
+
+    return img;
 }
 
 void Cam::setPosition(Point3 _position) {
@@ -90,21 +107,7 @@ double Cam::getScreenWidth() {
     return screenWidth;
 }
 
-Color Cam::trace(const Ray& ray, int depth) const {
-    HitRecord hitRecord;
-    Color color;
-
-    // Find closest intersection
-    // double tMin = std::numeric_limits<double>::infinity();
-    // for (const auto& obj : objects) {
-    //     if (obj->intersect(ray, tMin, hitRecord)) {
-    //         tMin = hitRecord.t;
-    //         color = hitRecord.material.shade(ray, hitRecord);
-    //     }
-    // }
-
-    return color;
-}
+// --- For testing only ---
 
 Image Cam::dummyRenderXY() {
     Image img(screenHeight, screenWidth);

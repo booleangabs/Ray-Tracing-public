@@ -18,7 +18,7 @@ endif
 OBJS := bin/Point3.$(EXT) bin/Vec3.$(EXT) bin/Ray.$(EXT) \
 		bin/Color.$(EXT) bin/Image.$(EXT) bin/Cam.$(EXT) \
 		bin/Material.$(EXT) bin/HitRecord.$(EXT) \
-		bin/Scene.$(EXT)
+		bin/Scene.$(EXT) bin/Plane.$(EXT)
 
 # $(info    OBJS are $(OBJS))
 
