@@ -16,4 +16,6 @@ class Color {
         void clamp();
 };
 
+Color operator*(double scalar, Color p);
+
 #endif
