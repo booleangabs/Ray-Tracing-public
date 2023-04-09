@@ -10,7 +10,7 @@ bool Plane::intersect(const Ray& ray, double t_min, HitRecord& hitRecord) const 
         return false;
     }
 
-    double t = (m_point - ray.getOrigin()).dot(m_normal) / denom;
+    double t = Vec3(ray.getOrigin(), m_point).dot(m_normal) / denom;
     if (t < 0) {
         return false;
     }
