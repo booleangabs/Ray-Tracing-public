@@ -27,3 +27,7 @@ void Color::clamp() {
     g = g > 1 ? 1 : g < 0 ? 0 : g;
     b = b > 1 ? 1 : b < 0 ? 0 : b;
 }
+
+Color operator*(double s, Color c) {
+    return c * s;
+};
