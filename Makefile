@@ -15,10 +15,10 @@ else
 	EXT = o
 endif
 
-SRCS := bin/Point3.EXT bin/Vec3.EXT bin/Ray.EXT \
-		bin/Color.EXT bin/Image.EXT bin/Cam.EXT \
-		bin/Material.EXT bin/HitRecord.EXT
-OBJS := $(patsubst %.EXT,%.$(EXT),$(SRCS))
+OBJS := bin/Point3.$(EXT) bin/Vec3.$(EXT) bin/Ray.$(EXT) \
+		bin/Color.$(EXT) bin/Image.$(EXT) bin/Cam.$(EXT) \
+		bin/Material.$(EXT) bin/HitRecord.$(EXT) \
+		bin/Scene.$(EXT)
 
 # $(info    OBJS are $(OBJS))
 
@@ -80,9 +80,15 @@ bin/test_cam: test/test_cam.cpp $(OBJS)
 run_test_cam: bin/test_cam
 	@"$(^)" $(IMAGE_PATH) $(CAM_MODE)
 
+bin/test_scene: test/test_scene.cpp $(OBJS)
+	@$(CXX) $^ $(CXXFLAGS) -o $@ 
+
+run_test_scene: bin/test_scene
+	@"$(^)"
+
 
 run_tests: run_test_point3 run_test_vec3 run_test_ray run_test_image \
-			run_test_cam
+			run_test_cam run_test_scene
 
 ##### Cleanup #####
 
