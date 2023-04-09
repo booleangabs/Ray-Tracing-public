@@ -15,7 +15,7 @@ bool Plane::intersect(const Ray& ray, double t_min, HitRecord& hitRecord) const 
         return false;
     }
 
-    hitRecord.t = t;
+    hitRecord.distance = t;
     hitRecord.point = ray.at(t);
     hitRecord.normal = m_normal;
     hitRecord.material = m_material;
