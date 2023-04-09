@@ -1,6 +1,6 @@
 #ifndef CONSTANTS_HPP
 #define CONSTANTS_HPP
 
-const double EPSILON = 0.0001;
+const double EPSILON = 1e-6;
 
 #endif
