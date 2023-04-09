@@ -27,7 +27,6 @@ bool Mesh::intersect(const Ray& ray, double t_min, HitRecord& hitRecord) const {
                 const Vec3 w = p - v0;
                 const double u = edge2.cross(w).dot(normal) / edge1.cross(edge2).dot(normal);
                 const double v = edge1.cross(w).dot(normal) / edge1.cross(edge2).dot(normal);
-
                 if (u >= 0 && v >= 0 && u + v <= 1) {
                     hitAnything = true;
                     closest_t = t;
