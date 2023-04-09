@@ -2,7 +2,8 @@
 #define POINT3_H
 
 #include <iostream>
-#include "Vec3.hpp"
+
+class Vec3;
 
 class Point3 {
     private:

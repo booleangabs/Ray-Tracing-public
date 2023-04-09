@@ -1,4 +1,5 @@
 #include "Point3.hpp"
+#include "Vec3.hpp"
 
 Point3::Point3() : x(0), y(0), z(0) {}
 
@@ -38,16 +39,16 @@ Point3 Point3::operator*(double scalar) const {
     return Point3(x * scalar, y * scalar, z * scalar);
 }
 
+Vec3 Point3::operator-(Point3 other) const {
+    return Vec3(x - other.getX(), y - other.getY(), z - other.getZ());
+}
+
 Point3 operator*(double scalar, Point3 p) {
     return p * scalar;
 }
 
 Point3 Point3::operator/(double scalar) const {
     return Point3(x / scalar, y / scalar, z / scalar);
-}
-
-Vec3 Point3::operator-(Point3 other) const {
-    return Vec3(x - other.getX(), y - other.getY(), z - other.getZ());
 }
 
 bool Point3::operator==(Point3 other) const {

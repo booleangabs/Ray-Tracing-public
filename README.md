@@ -3,35 +3,54 @@ Ray tracing project for Undergraduate Computer Graphics course at CIn-UFPE (IF68
 
 ---
 
-# Running
-Execute all make commands in the project root directory
+# 1. Running instructions
+Execute all of the following commands in the project root directory!!!
 
-## Main
+## 1.1 - Running the ray tracer
+### Linux
 ```
-make 
+make WINDOWS=false
 ```
 
-## Tests
-For building in linux, add WINDOWS=false at the end. For windows, just copy and run.
+### Windows
+```
+make
+```
+
+## 1.2 - Running tests
+### Linux
+```
+make run_tests CAM_MODE=0 IMAGE_PATH=data_output/encoded_coords.ppm WINDOWS=false
+```
+or
+```
+make run_tests CAM_MODE=1 IMAGE_PATH=data_output/encoded_rays.ppm WINDOWS=false
+```
+or
+```
+make run_tests CAM_MODE=2 IMAGE_PATH=data_output/final_result.ppm WINDOWS=false
+```
+
+### Windows
 ```
 make run_tests CAM_MODE=0 IMAGE_PATH=data_output/encoded_coords.ppm
 ```
-
 or
-
 ```
-make run_tests CAM_MODE=1 IMAGE_PATH=data_output/encoded_rays.ppm
+make run_tests CAM_MODE=1 IMAGE_PATH=data_output/encoded_rays.ppm 
 ```
-
 or
-
 ```
 make run_tests CAM_MODE=2 IMAGE_PATH=data_output/final_result.ppm
 ```
 
-* Note that currently CAM_MODE=2 outputs an empty image
+## 1.3 - Clean up
+### Linux
+```
+make clean WINDOWS=false
+```
 
-### Clean up
+### Windows
 ```
 make clean
 ```
