@@ -23,7 +23,6 @@ class Point3 {
 
         Point3 operator/(double scalar) const;
         Point3 operator*(double scalar) const;
-        Vec3 operator-(Point3 other) const;
         bool operator==(Point3 other) const;
 };
 
