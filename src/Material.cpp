@@ -1,4 +1,4 @@
-#include "../include/Material.hpp"
+#include "Material.hpp"
 
 Material::Material(Color _albedo, Vec3 _kd, Vec3 _ks, 
                  Vec3 _ka, Vec3 _kr, Vec3 _kt,

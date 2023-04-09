@@ -1,11 +1,14 @@
 #ifndef CAM_H
 #define CAM_H
 
-#include "Vec3.hpp"
-#include "Point3.hpp"
 #include "Ray.hpp"
-#include "Color.hpp"
 #include "Image.hpp"
+#include "Scene.hpp"
+#include "HitRecord.hpp"
+#include "Object.hpp"
+#include <limits>
+#include <vector>
+#include <memory>
 
 class Cam {
     private:
@@ -26,6 +29,8 @@ class Cam {
 
         void calculateBasis();
         Ray getPrimaryRay(int i, int j) const;
+        Color trace(const Ray& ray, Scene& scene, int depth) const;
+        Image render(Scene& scene);
         
         void setPosition(Point3 _position);
         void setTarget(Point3 _target);
@@ -41,8 +46,6 @@ class Cam {
         double getFocalDistance();
         double getScreenHeight();
         double getScreenWidth();
-
-        Color trace(const Ray& ray, int depth) const;
 
         Image dummyRenderXY();
         Image dummyRenderRays();

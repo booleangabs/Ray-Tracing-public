@@ -27,8 +27,8 @@ void Image::save(std::string path) {
     file << width << " " << height << std::endl;
     file << "255" << std::endl;
 
+    std::cerr << "Writing image -> ";
     for (int i = 0; i < height; i++) {
-        std::cerr << "\rRow " << i + 1 << "/" << height << std::flush;
         for (int j = 0; j < width; j++) {
             Color current = getPixel(i, j);
             int r = static_cast<int>(255.99 * current.r);
@@ -38,6 +38,6 @@ void Image::save(std::string path) {
         }
     }
 
-    std::cerr << "\nImage saved to '" << path << "'!" << std::endl;
+    std::cerr << "Image saved to '" << path << "'!" << std::endl;
     file.close();
 }
