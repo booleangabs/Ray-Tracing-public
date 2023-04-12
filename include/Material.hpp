@@ -2,25 +2,25 @@
 #define MATERIAL_H
 
 #include "Color.hpp"
-#include "Vec3.hpp"
+#include "Color.hpp"
 
 class Material {
     private:
         Color albedo; // the "main" color
-        Vec3 kd, ks, ka, kr, kt;
+        Color kd, ks, ka, kr, kt;
         double n;
 
     public:
-        Material(Color _albedo, Vec3 kd = Vec3(), Vec3 ks = Vec3(), 
-                 Vec3 ka = Vec3(), Vec3 kr = Vec3(), Vec3 kt = Vec3(),
+        Material(Color _albedo, Color kd = Color(1, 1, 1), Color ks = Color(1, 1, 1), 
+                 Color ka = Color(1, 1, 1), Color kr = Color(1, 1, 1), Color kt = Color(1, 1, 1),
                  double n = 1.0);
 
         Color getAlbedo();
-        Vec3 getKd();
-        Vec3 getKs();
-        Vec3 getKa();
-        Vec3 getKr();
-        Vec3 getKt();
+        Color getKd();
+        Color getKs();
+        Color getKa();
+        Color getKr();
+        Color getKt();
         double getN();
 };
 

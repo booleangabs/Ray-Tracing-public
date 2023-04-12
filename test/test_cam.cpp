@@ -5,6 +5,8 @@
 #include "Ray.hpp"
 #include "Cam.hpp"
 #include "Plane.hpp"
+#include "Sphere.hpp"
+#include "Mesh.hpp"
 #include <iostream>
 #include <vector>
 #include "math.h"
@@ -109,7 +111,7 @@ void do_render(int cam_mode, std::string path) {
     Point3 c(5, 5, 5);
     Point3 m(0, 0, 0);
     Vec3 upVector(0, 1, 0);
-    double distanceToScreen = 2;
+    double distanceToScreen = 5;
     int screenWidth = 640;
     int screenHeight = 480;
 
@@ -127,15 +129,24 @@ void do_render(int cam_mode, std::string path) {
             break;
 
         default:
-            Scene scene(Color(0.5, 0.5, 0.5));
+            Scene scene(Color(0.25, 0.75, 0.25));
             
             Plane p1(Point3(), upVector, Material(Color(0.0, 0, 1.0)));
             Plane p2(Point3(0, 0, 0), Vec3(1, 0, 0), Material(Color(1.0, 0, 1.0)));
             Plane p3(Point3(0, 0, 0), Vec3(0, 0, 1), Material(Color(0.0, 1, 0.0)));
+            Sphere sp1(Point3(), 1.0, Material(Color(0.33, 0, 0.25)));
+            Sphere sp2(Point3(1, 1, 1), 0.25, Material(Color(0.66, 1, 0.75)));
+            Sphere sp3(Point3(1.25, 0.25, 0.25), 0.25, Material(Color(0.66 - 0.2, 1 - 0.2, 0.75 - 0.2)));
+            Sphere sp4(Point3(0.25, 0.25, 1.25), 0.25, Material(Color(0.66 - 0.4, 1 - 0.4, 0.75 - 0.4)));
 
+            scene.addObject(&sp1);
+            scene.addObject(&sp2);
+            scene.addObject(&sp3);
+            scene.addObject(&sp4);
             scene.addObject(&p1);
             scene.addObject(&p2);
             scene.addObject(&p3);
+            
 
             result = cam.render(scene);
             break;

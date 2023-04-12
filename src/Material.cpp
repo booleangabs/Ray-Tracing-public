@@ -1,7 +1,7 @@
 #include "Material.hpp"
 
-Material::Material(Color _albedo, Vec3 _kd, Vec3 _ks, 
-                 Vec3 _ka, Vec3 _kr, Vec3 _kt,
+Material::Material(Color _albedo, Color _kd, Color _ks, 
+                 Color _ka, Color _kr, Color _kt,
                  double _n) 
         : albedo(_albedo), kd(_kd), ks(_ks), ka(_ka), kr(_kr), kt(_kt), n(_n) {};
 
@@ -9,23 +9,23 @@ Color Material::getAlbedo() {
     return albedo;
 }
 
-Vec3 Material::getKd() {
+Color Material::getKd() {
     return kd;
 }
 
-Vec3 Material::getKs() {
+Color Material::getKs() {
     return ks;
 }
 
-Vec3 Material::getKa() {
+Color Material::getKa() {
     return ka;
 }
 
-Vec3 Material::getKr() {
+Color Material::getKr() {
     return kr;
 }
 
-Vec3 Material::getKt() {
+Color Material::getKt() {
     return kt;
 }
 

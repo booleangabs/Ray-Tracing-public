@@ -1,4 +1,5 @@
 #include "Cam.hpp"
+#include "constants.hpp"
 
 Cam::Cam(const Point3 &_position, const Point3 &_target, const Vec3 &_upVector, 
          double _focalDistance, int _screenHeight, int _screenWidth)
@@ -35,10 +36,13 @@ Ray Cam::getPrimaryRay(int i, int j) const {
 Color Cam::trace(const Ray& ray, Scene& scene, int depth) const {
     HitRecord hitRecord;
 
-    Color color = Color(0.2, 0.2, 0.2);
+    Color color = BACKGROUND_COLOR;
     bool hit = scene.intersect(ray, hitRecord);
-    if (hit)
-        color = hitRecord.material.getAlbedo();
+    if (hit) {
+        Material mtrl = hitRecord.material;
+        color = mtrl.getAlbedo() * mtrl.getKa() * scene.getAmbientColor();
+        color.clamp();
+    }
     return color;
 }
 
