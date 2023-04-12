@@ -6,16 +6,16 @@
 
 class Material {
     private:
-        Color albedo; // the "main" color
+        Color Od; // the base color
         Color kd, ks, ka, kr, kt;
         double n;
 
     public:
-        Material(Color _albedo, Color kd = Color(1, 1, 1), Color ks = Color(1, 1, 1), 
+        Material(Color _Od, Color kd = Color(1, 1, 1), Color ks = Color(0.2, 0.2, 0.2), 
                  Color ka = Color(1, 1, 1), Color kr = Color(1, 1, 1), Color kt = Color(1, 1, 1),
                  double n = 1.0);
 
-        Color getAlbedo();
+        Color getOd();
         Color getKd();
         Color getKs();
         Color getKa();

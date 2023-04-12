@@ -108,7 +108,7 @@ string check_primary_ray() {
 }
 
 void do_render(int cam_mode, std::string path) {
-    Point3 c(5, 5, 5);
+    Point3 c(7.5, 7.5, 7.5);
     Point3 m(0, 0, 0);
     Vec3 upVector(0, 1, 0);
     double distanceToScreen = 5;
@@ -129,15 +129,20 @@ void do_render(int cam_mode, std::string path) {
             break;
 
         default:
-            Scene scene(Color(0.25, 0.75, 0.25));
+            Scene scene(Color(0, 0, 0));
             
-            Plane p1(Point3(), upVector, Material(Color(0.0, 0, 1.0)));
-            Plane p2(Point3(0, 0, 0), Vec3(1, 0, 0), Material(Color(1.0, 0, 1.0)));
-            Plane p3(Point3(0, 0, 0), Vec3(0, 0, 1), Material(Color(0.0, 1, 0.0)));
-            Sphere sp1(Point3(), 1.0, Material(Color(0.33, 0, 0.25)));
-            Sphere sp2(Point3(1, 1, 1), 0.25, Material(Color(0.66, 1, 0.75)));
-            Sphere sp3(Point3(1.25, 0.25, 0.25), 0.25, Material(Color(0.66 - 0.2, 1 - 0.2, 0.75 - 0.2)));
-            Sphere sp4(Point3(0.25, 0.25, 1.25), 0.25, Material(Color(0.66 - 0.4, 1 - 0.4, 0.75 - 0.4)));
+            Plane p1(Point3(), upVector, Material(Color(1.0, 1.0, 1.0)));
+            Plane p2(Point3(0, 0, 0), Vec3(1, 0, 0), Material(Color(1.0, 1.0, 1.0)));
+            Plane p3(Point3(0, 0, 0), Vec3(0, 0, 1), Material(Color(1.0, 1.0, 1.0)));
+            Sphere sp1(Point3(), 1.0, Material(Color(1, 1, 1)));
+            Sphere sp2(Point3(1, 1, 1), 0.25, Material(Color(0, 1, 0)));
+            Sphere sp3(Point3(1.25, 0.25, 0.25), 0.25, Material(Color(0, 0, 1)));
+            Sphere sp4(Point3(0.25, 0.25, 1.25), 0.25, Material(Color(1, 0, 0)));
+
+            Light l1(Point3(3, 1, 1), Color(1, 0, 0));
+            Light l2(Point3(1, 1, 3), Color(0, 1, 0));
+            Light l3(Point3(1, 3, 1), Color(0, 0, 1));
+            Light l4(Point3(5, 5, 5), Color(1, 1, 1));
 
             scene.addObject(&sp1);
             scene.addObject(&sp2);
@@ -146,8 +151,12 @@ void do_render(int cam_mode, std::string path) {
             scene.addObject(&p1);
             scene.addObject(&p2);
             scene.addObject(&p3);
-            
 
+            scene.addLight(&l1);
+            scene.addLight(&l2);
+            scene.addLight(&l3);
+            scene.addLight(&l4);
+            
             result = cam.render(scene);
             break;
     }

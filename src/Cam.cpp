@@ -1,5 +1,6 @@
 #include "Cam.hpp"
 #include "constants.hpp"
+#include "Light.hpp"
 
 Cam::Cam(const Point3 &_position, const Point3 &_target, const Vec3 &_upVector, 
          double _focalDistance, int _screenHeight, int _screenWidth)
@@ -7,8 +8,6 @@ Cam::Cam(const Point3 &_position, const Point3 &_target, const Vec3 &_upVector,
             screenHeight(_screenHeight), screenWidth(_screenWidth) {
     calculateBasis();
     aspectRatio = double(screenWidth) / screenHeight;
-    viewportWidth = 2.0 * aspectRatio;
-    viewportHeight = 2.0;
 }
 
 void Cam::calculateBasis() {
@@ -33,15 +32,31 @@ Ray Cam::getPrimaryRay(int i, int j) const {
     return Ray(position, direction.normalized());
 }
 
+Color Cam::shade(HitRecord& hitRecord, Scene& scene) const {
+    Material mtrl = hitRecord.material;
+    Point3 point = hitRecord.point;
+    Vec3 normal = hitRecord.normal;
+    Color color = mtrl.getKa() * scene.getAmbientColor();
+
+    double atten, distAtten;
+    for (Light* light : scene.lightSources()) {
+        Vec3 direction = light->getDirection(hitRecord.point);
+        distAtten = 1 / direction.length();
+        atten = distAtten;
+
+        color = color + light->illuminate(hitRecord, direction, atten);
+    }
+    color.clamp();
+    return color;
+}
+
 Color Cam::trace(const Ray& ray, Scene& scene, int depth) const {
     HitRecord hitRecord;
 
     Color color = BACKGROUND_COLOR;
     bool hit = scene.intersect(ray, hitRecord);
     if (hit) {
-        Material mtrl = hitRecord.material;
-        color = mtrl.getAlbedo() * mtrl.getKa() * scene.getAmbientColor();
-        color.clamp();
+        color = shade(hitRecord, scene);
     }
     return color;
 }
