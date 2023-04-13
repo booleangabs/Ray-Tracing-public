@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include "constants.hpp"
 
 Scene::Scene() {};
 
@@ -14,6 +15,14 @@ Object* Scene::operator [](const unsigned int i) {
 
 int Scene::getNumObjects() {
     return (int) sceneObjects.size();
+}
+
+void Scene::addLight(Light *_light) {
+    sceneLights.push_back(_light);
+}
+
+std::vector<Light*> Scene::lightSources() {
+    return sceneLights;
 }
 
 Color Scene::getAmbientColor() {

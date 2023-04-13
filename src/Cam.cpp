@@ -1,4 +1,6 @@
 #include "Cam.hpp"
+#include "constants.hpp"
+#include "Light.hpp"
 
 Cam::Cam(const Point3 &_position, const Point3 &_target, const Vec3 &_upVector, 
          double _focalDistance, int _screenHeight, int _screenWidth)
@@ -6,8 +8,6 @@ Cam::Cam(const Point3 &_position, const Point3 &_target, const Vec3 &_upVector,
             screenHeight(_screenHeight), screenWidth(_screenWidth) {
     calculateBasis();
     aspectRatio = double(screenWidth) / screenHeight;
-    viewportWidth = 2.0 * aspectRatio;
-    viewportHeight = 2.0;
 }
 
 void Cam::calculateBasis() {
@@ -17,11 +17,11 @@ void Cam::calculateBasis() {
 }
 
 Ray Cam::getPrimaryRay(int i, int j) const {
-    double x_ = (j + 0.5) / screenWidth;
-    double y_ = (i + 0.5) / screenHeight;
+    double x_ = (j - 0.5 * screenWidth + 0.5) / screenWidth;
+    double y_ = (i - 0.5 * screenHeight + 0.5) / screenHeight;
     
-    double x = (2.0 * x_ - 1.0) * aspectRatio;
-    double y = (1.0 - 2.0 * y_);
+    double x = 2.0 * x_  * aspectRatio;
+    double y = -2.0 * y_;
 
     // Calculates the direction of the primary ray
     Vec3 direction = -focalDistance * camForward 
@@ -32,13 +32,29 @@ Ray Cam::getPrimaryRay(int i, int j) const {
     return Ray(position, direction.normalized());
 }
 
+Color Cam::shade(HitRecord& hitRecord, Scene& scene) const {
+    Color color = hitRecord.material.getKa() * hitRecord.material.getOd() * scene.getAmbientColor();
+
+    for (Light* light : scene.lightSources()) {
+        Vec3 viewpointVec = (position - hitRecord.point).normalized();
+        Vec3 lightDirection = light->getDirection(hitRecord.point).normalized();
+
+        bool inShadow = false; // TODO: cast shadow ray and check for intersection
+        
+        color = color + light->illuminate(hitRecord, viewpointVec, inShadow);
+    }
+
+    color.clamp();
+    return color;
+}
+
 Color Cam::trace(const Ray& ray, Scene& scene, int depth) const {
     HitRecord hitRecord;
 
-    Color color = Color(0.2, 0.2, 0.2);
-    bool hit = scene.intersect(ray, hitRecord);
-    if (hit)
-        color = hitRecord.material.getAlbedo();
+    Color color = BACKGROUND_COLOR;
+    if (scene.intersect(ray, hitRecord)) {
+        color = shade(hitRecord, scene);
+    }
     return color;
 }
 

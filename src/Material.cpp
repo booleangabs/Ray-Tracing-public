@@ -1,34 +1,62 @@
 #include "Material.hpp"
 
-Material::Material(Color _albedo, Vec3 _kd, Vec3 _ks, 
-                 Vec3 _ka, Vec3 _kr, Vec3 _kt,
-                 double _n) 
-        : albedo(_albedo), kd(_kd), ks(_ks), ka(_ka), kr(_kr), kt(_kt), n(_n) {};
+Material::Material(Color _Od, Color _kd, Color _ks, 
+                 Color _ka, Color _kr, Color _kt,
+                 double _eta) 
+        : Od(_Od), kd(_kd), ks(_ks), ka(_ka), kr(_kr), kt(_kt), eta(_eta) {};
 
-Color Material::getAlbedo() {
-    return albedo;
+Color Material::getOd() {
+    return Od;
 }
 
-Vec3 Material::getKd() {
+Color Material::getKd() {
     return kd;
 }
 
-Vec3 Material::getKs() {
+Color Material::getKs() {
     return ks;
 }
 
-Vec3 Material::getKa() {
+Color Material::getKa() {
     return ka;
 }
 
-Vec3 Material::getKr() {
+Color Material::getKr() {
     return kr;
 }
 
-Vec3 Material::getKt() {
+Color Material::getKt() {
     return kt;
 }
 
-double Material::getN() {
-    return n;
+double Material::getEta() {
+    return eta;
+}
+
+void Material::setOd(Color _Od) {
+    Od = _Od;
+}
+
+void Material::setKd(Color _Kd) {
+    kd = _Kd;
+}
+
+void Material::setKs(Color _Ks) {
+    ks = _Ks;
+}
+
+void Material::setKa(Color _Ka) {
+    ks = _Ka;
+}
+
+void Material::setKr(Color _Kr) {
+    kr = _Kr;
+}
+
+void Material::setKt(Color _Kt) {
+    kt = _Kt;
+}
+
+void Material::setEta(double _Eta) {
+    eta = _Eta;
 }

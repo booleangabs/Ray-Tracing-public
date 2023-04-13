@@ -62,7 +62,7 @@ string check_intersection() {
     bool ok2 = (r.distance == 4.0);
     bool ok3 = (r.point == Point3(0, 0, 1));
     bool ok4 = (r.normal == Vec3(0, 0, 1));
-    Color c = r.material.getAlbedo();
+    Color c = r.material.getOd();
     bool ok5 = (c.r == 0.33) && (c.g == 0.0) && (c.b == 0.25);
     string status = get_check_status(ok1 && ok2 && ok3 && ok4 && ok5);
     status += info;

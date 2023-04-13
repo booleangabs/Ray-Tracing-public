@@ -31,9 +31,9 @@ void Image::save(std::string path) {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             Color current = getPixel(i, j);
-            int r = static_cast<int>(255.99 * current.r);
-            int g = static_cast<int>(255.99 * current.g);
-            int b = static_cast<int>(255.99 * current.b);
+            int r = static_cast<uint8_t>(255.99 * current.r);
+            int g = static_cast<uint8_t>(255.99 * current.g);
+            int b = static_cast<uint8_t>(255.99 * current.b);
             file << r << " " << g << " " << b << std::endl;
         }
     }

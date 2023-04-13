@@ -20,8 +20,6 @@ class Cam {
         int screenWidth; 
         int screenHeight;
         double aspectRatio;
-        double viewportWidth;
-        double viewportHeight;
         
     public:
         Cam(const Point3& _position, const Point3& _target, const Vec3& _upVector,
@@ -29,6 +27,7 @@ class Cam {
 
         void calculateBasis();
         Ray getPrimaryRay(int i, int j) const;
+        Color shade(HitRecord& hitRecord, Scene& scene) const;
         Color trace(const Ray& ray, Scene& scene, int depth) const;
         Image render(Scene& scene);
         

@@ -19,7 +19,7 @@ OBJS := bin/Point3.$(EXT) bin/Vec3.$(EXT) bin/Ray.$(EXT) \
 		bin/Color.$(EXT) bin/Image.$(EXT) bin/Cam.$(EXT) \
 		bin/Material.$(EXT) bin/HitRecord.$(EXT) \
 		bin/Scene.$(EXT) bin/Plane.$(EXT) bin/Sphere.$(EXT) \
-		bin/Mesh.$(EXT)
+		bin/Mesh.$(EXT) bin/Light.$(EXT)
 
 # $(info    OBJS are $(OBJS))
 
@@ -47,7 +47,7 @@ bin/main: src/main.cpp $(OBJS)
 	@$(CXX) $^ -o $@ $(CXXFLAGS)
 
 run_raytracing: bin/main
-	@"$(^)"
+	@"$(^)" $(IMAGE_PATH)
 
 ##### Tests #####
 

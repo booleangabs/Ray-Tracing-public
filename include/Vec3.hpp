@@ -42,5 +42,6 @@ class Vec3{
 
 Point3 operator+(const Point3& p, const Vec3& vec);
 Vec3 operator*(double scalar, const Vec3& vec);
+std::ostream& operator<<(std::ostream &s, const Vec3 &p);
 
 #endif
