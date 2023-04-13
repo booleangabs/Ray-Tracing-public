@@ -13,10 +13,6 @@
 
 using namespace std;
 
-ostream& operator<<(ostream &s, const Vec3 &v) {
-    return s << "Vec3(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")";
-}
-
 string get_check_status(bool ok) {
     string status;
     switch (ok) {
@@ -109,11 +105,12 @@ string check_primary_ray() {
 
 void do_render(int cam_mode, std::string path) {
     Point3 c(7.5, 7.5, 7.5);
-    Point3 m(0, 0, 0);
+    Point3 m(1, 1, 1);
     Vec3 upVector(0, 1, 0);
     double distanceToScreen = 5;
-    int screenWidth = 640;
-    int screenHeight = 480;
+    double scale = 1;
+    int screenWidth = int(640 * scale);
+    int screenHeight = int(480 * scale);
 
     Cam cam(c, m, upVector, distanceToScreen, screenHeight, screenWidth);
 
@@ -129,20 +126,26 @@ void do_render(int cam_mode, std::string path) {
             break;
 
         default:
-            Scene scene(Color(0, 0, 0));
+            Scene scene(Color(0.25, 0.25, 0.25));
             
-            Plane p1(Point3(), upVector, Material(Color(1.0, 1.0, 1.0)));
-            Plane p2(Point3(0, 0, 0), Vec3(1, 0, 0), Material(Color(1.0, 1.0, 1.0)));
-            Plane p3(Point3(0, 0, 0), Vec3(0, 0, 1), Material(Color(1.0, 1.0, 1.0)));
-            Sphere sp1(Point3(), 1.0, Material(Color(1, 1, 1)));
-            Sphere sp2(Point3(1, 1, 1), 0.25, Material(Color(0, 1, 0)));
-            Sphere sp3(Point3(1.25, 0.25, 0.25), 0.25, Material(Color(0, 0, 1)));
-            Sphere sp4(Point3(0.25, 0.25, 1.25), 0.25, Material(Color(1, 0, 0)));
+            Material wall1(Color(0.95, 0.5, 0.5));
+            Material wall2(Color(0.5, 0.95, 0.5));
+            Material wall3(Color(0.5, 0.5, 0.95));
+            Material highlighted_ball(Color(1, 1, 1));
+            highlighted_ball.setKs(Color(1, 1, 1) * 0.75);
+            highlighted_ball.setEta(50);
 
-            Light l1(Point3(3, 1, 1), Color(1, 0, 0));
-            Light l2(Point3(1, 1, 3), Color(0, 1, 0));
-            Light l3(Point3(1, 3, 1), Color(0, 0, 1));
-            Light l4(Point3(5, 5, 5), Color(1, 1, 1));
+            Plane p1(Point3(), upVector, wall1);
+            Plane p2(Point3(), Vec3(1, 0, 0), wall2);
+            Plane p3(Point3(), Vec3(0, 0, 1), wall3);
+            Sphere sp1(Point3(), 1.0, Material(Color(0.75, 0.75, 0.75)));
+            Sphere sp2(Point3(0.45, 1.3, 0.45), 0.25, highlighted_ball);
+            Sphere sp3(Point3(1.3, 0.45, 0.45), 0.25, highlighted_ball);
+            Sphere sp4(Point3(0.45, 0.45, 1.3), 0.25, highlighted_ball);
+
+            Light l1(Point3(2, 1, 1), Color(1, 0, 0));
+            Light l2(Point3(1, 1, 2), Color(0, 1, 0));
+            Light l3(Point3(1, 2, 1), Color(0, 0, 1));
 
             scene.addObject(&sp1);
             scene.addObject(&sp2);
@@ -155,7 +158,6 @@ void do_render(int cam_mode, std::string path) {
             scene.addLight(&l1);
             scene.addLight(&l2);
             scene.addLight(&l3);
-            scene.addLight(&l4);
             
             result = cam.render(scene);
             break;

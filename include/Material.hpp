@@ -8,12 +8,12 @@ class Material {
     private:
         Color Od; // the base color
         Color kd, ks, ka, kr, kt;
-        double n;
+        double eta;
 
     public:
-        Material(Color _Od, Color kd = Color(1, 1, 1), Color ks = Color(0.2, 0.2, 0.2), 
-                 Color ka = Color(1, 1, 1), Color kr = Color(1, 1, 1), Color kt = Color(1, 1, 1),
-                 double n = 1.0);
+        Material(Color _Od, Color _kd = Color(1, 1, 1), Color _ks = Color(), 
+                 Color _ka = Color(1, 1, 1), Color _kr = Color(1, 1, 1), Color _kt = Color(1, 1, 1),
+                 double _eta = 1.0);
 
         Color getOd();
         Color getKd();
@@ -21,7 +21,15 @@ class Material {
         Color getKa();
         Color getKr();
         Color getKt();
-        double getN();
+        double getEta();
+
+        void setOd(Color _Od);
+        void setKd(Color _Kd);
+        void setKs(Color _Ks);
+        void setKa(Color _Ka);
+        void setKr(Color _Kr);
+        void setKt(Color _Kt);
+        void setEta(double _Eta);
 };
 
 #endif

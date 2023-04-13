@@ -120,3 +120,7 @@ Vec3 Vec3::cross(const Vec3& vec) const {
     double c = (x * vec.getY() - vec.getX() * y);
     return Vec3(a, b, c);
 };
+
+std::ostream& operator<<(std::ostream &s, const Vec3 &p) {
+    return s << "Vec3(" << p.getX() << ", " << p.getY() << ", " << p.getZ() << ")";
+}

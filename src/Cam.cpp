@@ -17,11 +17,11 @@ void Cam::calculateBasis() {
 }
 
 Ray Cam::getPrimaryRay(int i, int j) const {
-    double x_ = (j + 0.5) / screenWidth;
-    double y_ = (i + 0.5) / screenHeight;
+    double x_ = (j - 0.5 * screenWidth + 0.5) / screenWidth;
+    double y_ = (i - 0.5 * screenHeight + 0.5) / screenHeight;
     
-    double x = (2.0 * x_ - 1.0) * aspectRatio;
-    double y = (1.0 - 2.0 * y_);
+    double x = 2.0 * x_  * aspectRatio;
+    double y = -2.0 * y_;
 
     // Calculates the direction of the primary ray
     Vec3 direction = -focalDistance * camForward 
@@ -33,19 +33,17 @@ Ray Cam::getPrimaryRay(int i, int j) const {
 }
 
 Color Cam::shade(HitRecord& hitRecord, Scene& scene) const {
-    Material mtrl = hitRecord.material;
-    Point3 point = hitRecord.point;
-    Vec3 normal = hitRecord.normal;
-    Color color = mtrl.getKa() * scene.getAmbientColor();
+    Color color = hitRecord.material.getKa() * hitRecord.material.getOd() * scene.getAmbientColor();
 
-    double atten, distAtten;
     for (Light* light : scene.lightSources()) {
-        Vec3 direction = light->getDirection(hitRecord.point);
-        distAtten = 1 / direction.length();
-        atten = distAtten;
+        Vec3 viewpointVec = (position - hitRecord.point).normalized();
+        Vec3 lightDirection = light->getDirection(hitRecord.point).normalized();
 
-        color = color + light->illuminate(hitRecord, direction, atten);
+        bool inShadow = false; // TODO: cast shadow ray and check for intersection
+        
+        color = color + light->illuminate(hitRecord, viewpointVec, inShadow);
     }
+
     color.clamp();
     return color;
 }
@@ -54,8 +52,7 @@ Color Cam::trace(const Ray& ray, Scene& scene, int depth) const {
     HitRecord hitRecord;
 
     Color color = BACKGROUND_COLOR;
-    bool hit = scene.intersect(ray, hitRecord);
-    if (hit) {
+    if (scene.intersect(ray, hitRecord)) {
         color = shade(hitRecord, scene);
     }
     return color;

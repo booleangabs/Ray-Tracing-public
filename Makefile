@@ -47,7 +47,7 @@ bin/main: src/main.cpp $(OBJS)
 	@$(CXX) $^ -o $@ $(CXXFLAGS)
 
 run_raytracing: bin/main
-	@"$(^)"
+	@"$(^)" $(IMAGE_PATH)
 
 ##### Tests #####
 
