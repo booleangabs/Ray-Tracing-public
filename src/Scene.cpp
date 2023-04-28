@@ -33,18 +33,19 @@ void Scene::setAmbientColor(Color _ambientColor) {
     ambientColor = _ambientColor;
 }
 
-bool Scene::intersect(Ray ray, HitRecord& hitRecord) const {
+void Scene::intersect(Ray ray, HitRecord& hitRecord) {
     double distance = std::numeric_limits<double>::max();
-    HitRecord temp;
-    bool hit;
-
+    hitRecord.hit = false;
+    
     for (auto object : sceneObjects) {
-        hit = object->intersect(ray, T_MIN, temp);
-        if (hit && (temp.distance < distance)) {
-            hitRecord = temp;
+        HitRecord temp;
+        if (object->intersect(ray, T_MIN, temp) && (temp.distance < distance)) {
+            hitRecord.hit = true;
+            hitRecord.distance = temp.distance;
+            hitRecord.point = temp.point;
+            hitRecord.normal = temp.normal;
+            hitRecord.material = temp.material;
             distance = hitRecord.distance;
         }
     }
-
-    return hit;
 }

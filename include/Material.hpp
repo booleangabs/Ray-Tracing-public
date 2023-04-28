@@ -2,7 +2,6 @@
 #define MATERIAL_H
 
 #include "Color.hpp"
-#include "Color.hpp"
 
 class Material {
     private:
@@ -12,7 +11,7 @@ class Material {
 
     public:
         Material(Color _Od, Color _kd = Color(1, 1, 1), Color _ks = Color(), 
-                 Color _ka = Color(1, 1, 1), Color _kr = Color(1, 1, 1), Color _kt = Color(1, 1, 1),
+                 Color _ka = Color(1, 1, 1), Color _kr = Color(0, 0, 0), Color _kt = Color(0, 0, 0),
                  double _eta = 1.0);
 
         Color getOd();

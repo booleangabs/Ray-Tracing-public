@@ -8,7 +8,7 @@ Light::Light(const Point3 &position, const Color &color) {
     mIntensity = color;
 }
 
-Color Light::illuminate(HitRecord hitRecord, Vec3 viewpointVec, bool inShadow) {
+Color Light::illuminate(HitRecord hitRecord, Vec3 viewpointVec) {
     Point3 hitPoint = hitRecord.point;
     Vec3 normal = hitRecord.normal;
     Material mtrl = hitRecord.material;
@@ -24,7 +24,7 @@ Color Light::illuminate(HitRecord hitRecord, Vec3 viewpointVec, bool inShadow) {
     double rdotv = std::max(0.0, viewpointVec.dot(reflection));
     Color specularTerm = mtrl.getKs() * std::pow(rdotv, mtrl.getEta());
 
-    double f_att = distanceAttenuation * double(!inShadow);
+    double f_att = distanceAttenuation;
     return f_att * mIntensity * (diffuseTerm + specularTerm);
 }
 

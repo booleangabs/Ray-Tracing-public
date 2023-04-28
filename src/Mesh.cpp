@@ -1,6 +1,7 @@
 #include "Mesh.hpp"
 #include "Vec3.hpp"
 #include "constants.hpp"
+#include <limits>
 
 
 Mesh::Mesh(const std::vector<Point3>& vertices, const std::vector<size_t>& indices, const Material& material)
@@ -8,7 +9,7 @@ Mesh::Mesh(const std::vector<Point3>& vertices, const std::vector<size_t>& indic
 
 bool Mesh::intersect(const Ray& ray, double t_min, HitRecord& hitRecord) const {
     bool hitAnything = false;
-    double closest_t = t_min;
+    double closest_t = std::numeric_limits<double>::max();
     HitRecord closestHitRecord;
     for (size_t i = 0; i < m_indices.size(); i += 3) {
         const Point3& v0 = m_vertices[m_indices[i]];

@@ -7,6 +7,7 @@
 
 class HitRecord {
     public:
+        bool hit;
         double distance;
         Point3 point;
         Vec3 normal;

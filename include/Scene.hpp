@@ -28,7 +28,7 @@ class Scene{
         Color getAmbientColor();
         void setAmbientColor(Color _ambientColor);
 
-        bool intersect(Ray ray, HitRecord& hitRecord) const;
+        void intersect(Ray ray, HitRecord& hitRecord);
 };
 
 #endif

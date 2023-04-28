@@ -20,7 +20,7 @@ class Light {
         Point3 getPosition() const;
 
         Color getIntensity() const;
-        Color illuminate(HitRecord hitRecord, Vec3 viewpointVec, bool inShadow);
+        Color illuminate(HitRecord hitRecord, Vec3 viewpointVec);
 };
 
 #endif

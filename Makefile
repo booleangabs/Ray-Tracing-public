@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Iinclude
+CXXFLAGS = -std=c++20 -Iinclude
 
 ifndef WINDOWS
 	WINDOWS=true

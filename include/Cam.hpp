@@ -27,7 +27,7 @@ class Cam {
 
         void calculateBasis();
         Ray getPrimaryRay(int i, int j) const;
-        Color shade(HitRecord& hitRecord, Scene& scene) const;
+        Color shade(HitRecord& hitRecord, Scene& scene, Vec3& viewpointVec) const;
         Color trace(const Ray& ray, Scene& scene, int depth) const;
         Image render(Scene& scene);
         

@@ -1,6 +1,8 @@
 #include "Cam.hpp"
 #include "constants.hpp"
 #include "Light.hpp"
+#include "Sphere.hpp"
+#include "utils.hpp"
 
 Cam::Cam(const Point3 &_position, const Point3 &_target, const Vec3 &_upVector, 
          double _focalDistance, int _screenHeight, int _screenWidth)
@@ -32,29 +34,45 @@ Ray Cam::getPrimaryRay(int i, int j) const {
     return Ray(position, direction.normalized());
 }
 
-Color Cam::shade(HitRecord& hitRecord, Scene& scene) const {
+Color Cam::shade(HitRecord& hitRecord, Scene& scene, Vec3& viewpointVec) const {
     Color color = hitRecord.material.getKa() * hitRecord.material.getOd() * scene.getAmbientColor();
 
     for (Light* light : scene.lightSources()) {
-        Vec3 viewpointVec = (position - hitRecord.point).normalized();
-        Vec3 lightDirection = light->getDirection(hitRecord.point).normalized();
+        viewpointVec = (position - hitRecord.point).normalized();
+        Vec3 lightDirection = (light->getPosition() - hitRecord.point);
+        double dist = lightDirection.length();
+        lightDirection.inormalize();
 
-        bool inShadow = false; // TODO: cast shadow ray and check for intersection
-        
-        color = color + light->illuminate(hitRecord, viewpointVec, inShadow);
+        Ray shadowRay(hitRecord.point + 1e-2 * lightDirection, lightDirection);
+        HitRecord shadowRec;
+        scene.intersect(shadowRay, shadowRec);
+        if (!shadowRec.hit || (shadowRec.distance > dist))
+            color = color + light->illuminate(hitRecord, viewpointVec);
     }
-
     color.clamp();
+
     return color;
 }
 
 Color Cam::trace(const Ray& ray, Scene& scene, int depth) const {
+    if (depth < 0)
+        return BACKGROUND_COLOR;
     HitRecord hitRecord;
-
-    Color color = BACKGROUND_COLOR;
-    if (scene.intersect(ray, hitRecord)) {
-        color = shade(hitRecord, scene);
+    
+    scene.intersect(ray, hitRecord);
+    if (!hitRecord.hit) {
+        return BACKGROUND_COLOR;
     }
+
+    Vec3 viewpointVec;
+    Color color = shade(hitRecord, scene, viewpointVec);
+    color.clamp();
+
+    Vec3 reflected = reflectAroundNormal(viewpointVec, hitRecord.normal);
+    Ray reflectedRay(hitRecord.point, reflected);
+    Color kr = hitRecord.material.getKr();
+    color = color + kr * trace(reflectedRay, scene, depth - 1);
+    color.clamp();
     return color;
 }
 
@@ -64,7 +82,9 @@ Image Cam::render(Scene& scene) {
     for (int i = 0; i < screenHeight; i++) {
         for (int j = 0; j < screenWidth; j++) {
             Ray ray = getPrimaryRay(i, j);
-            img.setPixel(i, j, trace(ray, scene, 0));
+            Color color = trace(ray, scene, 4);
+            color.clamp();
+            img.setPixel(i, j, color);
         }
     }
 

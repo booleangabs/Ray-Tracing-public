@@ -7,19 +7,19 @@ class Vec3;
 
 class Point3 {
     private:
-        double x, y, z;
+        double m_x, m_y, m_z;
 
     public:
         Point3();
-        Point3(double _x, double _y, double _z);
+        Point3(double x, double y, double z);
 
         double getX() const;
         double getY() const;
         double getZ() const;
-        void setX(double _x);
-        void setY(double _y);
-        void setZ(double _z);
-        void set(double _x, double _y, double _z);
+        void setX(double x);
+        void setY(double y);
+        void setZ(double z);
+        void set(double x, double y, double z);
 
         Point3 operator/(double scalar) const;
         Point3 operator*(double scalar) const;

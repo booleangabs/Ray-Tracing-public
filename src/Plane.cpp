@@ -11,7 +11,7 @@ bool Plane::intersect(const Ray& ray, double t_min, HitRecord& hitRecord) const 
     }
 
     double t = (m_point - ray.getOrigin()).dot(m_normal) / denom;
-    if (t < 0) {
+    if (t < t_min) {
         return false;
     }
 
