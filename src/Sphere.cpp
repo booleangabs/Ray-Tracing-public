@@ -4,7 +4,7 @@
 Sphere::Sphere(const Point3& center, const double& radius, const Material& material)
             : m_center(center), m_radius(radius), m_material(material) {}
 
-bool Sphere::intersect(const Ray &ray, double t_min, HitRecord &hitRecord) const {
+bool Sphere::intersect(const Ray &ray, double t_min, double t_max, HitRecord &hitRecord) const {
     Vec3 oc = ray.getOrigin() - m_center;
     double ocr = oc.dot(ray.getDirection());
     double ocsr2 = oc.lengthSqr() - m_radius * m_radius;

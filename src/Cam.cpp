@@ -3,6 +3,9 @@
 #include "Light.hpp"
 #include "Sphere.hpp"
 #include "utils.hpp"
+#include <cstdlib>
+
+#define IOR 1.25
 
 Cam::Cam(const Point3 &_position, const Point3 &_target, const Vec3 &_upVector, 
          double _focalDistance, int _screenHeight, int _screenWidth)
@@ -18,9 +21,13 @@ void Cam::calculateBasis() {
     camUp = camForward.cross(camRight);
 }
 
+double randomOffset() {
+    return (double)rand() / RAND_MAX;
+}
+
 Ray Cam::getPrimaryRay(int i, int j) const {
-    double x_ = (j - 0.5 * screenWidth + 0.5) / screenWidth;
-    double y_ = (i - 0.5 * screenHeight + 0.5) / screenHeight;
+    double x_ = (j - 0.5 * screenWidth + randomOffset()) / screenWidth;
+    double y_ = (i - 0.5 * screenHeight + randomOffset()) / screenHeight;
     
     double x = 2.0 * x_  * aspectRatio;
     double y = -2.0 * y_;
@@ -73,16 +80,41 @@ Color Cam::trace(const Ray& ray, Scene& scene, int depth) const {
     Color kr = hitRecord.material.getKr();
     color = color + kr * trace(reflectedRay, scene, depth - 1);
     color.clamp();
+
+    Color kt = hitRecord.material.getKt();
+    if (kt.r != 0) {
+        bool entering = ray.getDirection().dot(hitRecord.normal) < 0;
+        double ratio = entering ? (1 / IOR) : IOR;
+
+        double cos_theta = fmin((ray.getDirection()).dot(hitRecord.normal), 1);
+        double sin_theta = sqrt(1.0 - cos_theta*cos_theta);
+        if (ratio * sin_theta <= 1) {
+            Vec3 r_out_perp = ratio * (ray.getDirection() + cos_theta * hitRecord.normal);
+            Vec3 r_out_par = -sqrt(fabs(1 - r_out_perp.lengthSqr())) * hitRecord.normal;
+            Vec3 refractionDir = r_out_par + r_out_perp;
+            refractionDir.inormalize();
+            
+            
+            Color rcolor = trace(Ray(hitRecord.point, refractionDir), scene, 1);
+            rcolor.clamp();
+            color = color + kt * rcolor;
+        }
+    } 
+
     return color;
 }
 
-Image Cam::render(Scene& scene) {
+Image Cam::render(Scene& scene, int aa_samples) {
     Image img(screenHeight, screenWidth);
     
     for (int i = 0; i < screenHeight; i++) {
         for (int j = 0; j < screenWidth; j++) {
-            Ray ray = getPrimaryRay(i, j);
-            Color color = trace(ray, scene, 4);
+            Color color(0, 0, 0);
+            for (int sample = 0; sample < aa_samples; sample++) {
+                Ray ray = getPrimaryRay(i, j);
+                color = color + trace(ray, scene, 5);
+            }
+            color = color / aa_samples;
             color.clamp();
             img.setPixel(i, j, color);
         }

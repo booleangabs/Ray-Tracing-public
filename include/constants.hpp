@@ -5,5 +5,6 @@
 const double EPSILON = 1e-6;
 const Color BACKGROUND_COLOR = Color(0, 0, 0);
 const double T_MIN = 1e-5;
+const double T_MAX = std::numeric_limits<float>::max();
 
 #endif

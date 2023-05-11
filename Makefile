@@ -19,9 +19,13 @@ OBJS := bin/Point3.$(EXT) bin/Vec3.$(EXT) bin/Ray.$(EXT) \
 		bin/Color.$(EXT) bin/Image.$(EXT) bin/Cam.$(EXT) \
 		bin/Material.$(EXT) bin/HitRecord.$(EXT) \
 		bin/Scene.$(EXT) bin/Plane.$(EXT) bin/Sphere.$(EXT) \
-		bin/Mesh.$(EXT) bin/Light.$(EXT)
+		bin/Mesh.$(EXT) bin/Light.$(EXT) bin/Triangle.$(EXT)
 
 # $(info    OBJS are $(OBJS))
+
+ifndef INPUT_PATH
+	INPUT_PATH=data_input/input.txt
+endif
 
 ifndef IMAGE_PATH
 	IMAGE_PATH=data_output/image.ppm
@@ -47,7 +51,7 @@ bin/main: src/main.cpp $(OBJS)
 	@$(CXX) $^ -o $@ $(CXXFLAGS)
 
 run_raytracing: bin/main
-	@"$(^)" $(IMAGE_PATH)
+	@"$(^)" $(INPUT_PATH) $(IMAGE_PATH)
 
 ##### Tests #####
 

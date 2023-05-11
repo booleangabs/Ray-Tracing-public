@@ -58,7 +58,7 @@ string check_intersection() {
     Ray ray(Point3(0, 0, 5), Vec3(0, 0, -1));
 
     HitRecord r;
-    bool ok1 = sp.intersect(ray, EPSILON, r);
+    bool ok1 = sp.intersect(ray, EPSILON, T_MAX, r);
     bool ok2 = (r.distance == 4.0);
     bool ok3 = (r.point == Point3(0, 0, 1));
     bool ok4 = (r.normal == Vec3(0, 0, 1));
@@ -75,7 +75,7 @@ string check_no_intersection() {
     Ray ray(Point3(5, 5, 0), Vec3(0, 0, 1));
 
     HitRecord r;
-    bool ok = !sp.intersect(ray, EPSILON, r);
+    bool ok = !sp.intersect(ray, EPSILON, T_MAX, r);
     string status = get_check_status(ok);
     status += info;
     return status;

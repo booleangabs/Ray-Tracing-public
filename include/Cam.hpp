@@ -22,6 +22,7 @@ class Cam {
         double aspectRatio;
         
     public:
+        Cam() = default;
         Cam(const Point3& _position, const Point3& _target, const Vec3& _upVector,
             double _focalDistance, int _screenHeight, int _screenWidth);
 
@@ -29,8 +30,8 @@ class Cam {
         Ray getPrimaryRay(int i, int j) const;
         Color shade(HitRecord& hitRecord, Scene& scene, Vec3& viewpointVec) const;
         Color trace(const Ray& ray, Scene& scene, int depth) const;
-        Image render(Scene& scene);
-        
+        Image render(Scene &scene, int aa_samples);
+
         void setPosition(Point3 _position);
         void setTarget(Point3 _target);
         void setFocalDistance(double _focalDistance);

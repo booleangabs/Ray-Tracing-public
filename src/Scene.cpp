@@ -39,7 +39,7 @@ void Scene::intersect(Ray ray, HitRecord& hitRecord) {
     
     for (auto object : sceneObjects) {
         HitRecord temp;
-        if (object->intersect(ray, T_MIN, temp) && (temp.distance < distance)) {
+        if (object->intersect(ray, T_MIN, T_MAX, temp) && (temp.distance < distance)) {
             hitRecord.hit = true;
             hitRecord.distance = temp.distance;
             hitRecord.point = temp.point;

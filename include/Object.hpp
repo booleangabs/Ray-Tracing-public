@@ -7,7 +7,7 @@
 
 class Object {
     public:
-        virtual bool intersect(const Ray& ray, double t_min, HitRecord& hitRecord) const = 0;
+        virtual bool intersect(const Ray& ray, double t_min, double t_max, HitRecord& hitRecord) const = 0;
 };
 
 #endif

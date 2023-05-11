@@ -8,7 +8,7 @@ class Sphere : public Object {
 public:
     Sphere(const Point3& center, const double& radius, const Material& material);
 
-    bool intersect(const Ray& ray, double t_min, HitRecord& hitRecord) const override;
+    bool intersect(const Ray& ray, double t_min, double t_max, HitRecord& hitRecord) const override;
 
 private:
     Point3 m_center;

@@ -7,14 +7,15 @@ Ray tracing project for Undergraduate Computer Graphics course at CIn-UFPE (IF68
 Execute all of the following commands in the project root directory!!!
 
 ## 1.1 - Running the ray tracer
+if INPUT_PATH and/or IMAGE_PATH are omitted, default values will be used (check Makefile).
 ### Linux
 ```
-make WINDOWS=false
+make WINDOWS=false INPUT_PATH=<path/to/input.txt> IMAGE_PATH=<path/to/output.ppm>
 ```
 
 ### Windows
 ```
-make
+make INPUT_PATH=<path/to/input.txt> IMAGE_PATH=<path/to/output.ppm>
 ```
 
 ## 1.2 - Running tests

@@ -11,7 +11,7 @@
 class Plane : public Object {
 public:
     Plane(const Point3& point, const Vec3& normal, const Material& material);
-    bool intersect(const Ray& ray, double t_min, HitRecord& hitRecord) const override;
+    bool intersect(const Ray& ray, double t_min, double t_max, HitRecord& hitRecord) const override;
 private:
     Point3 m_point;
     Vec3 m_normal;
